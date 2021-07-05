@@ -2,8 +2,8 @@
 ![picture 23](../images/55f4d16f7a4a82b1329832e010b6f9547a67b426f9892a2fb70516665d490462.png)  
 
 
-- Real-time analytics allows businesses to get insights and act on data immediately
-- real-time big data analytics uses data in financial databases to inform trading decisions.
+- Allows businesses to get insights and act on data immediately
+- Used in financial databases to inform trading decisions.
 - Analytics can be on-demand or continuous. On-demand delivers results when the user requests it. Continuous updates users as events happen and can be programmed to respond automatically to certain events. 
   
 ## How Do Real Time Analytics Work?
@@ -11,16 +11,10 @@
 - When streaming takes too many resources and isn’t practical, data can be pulled at intervals that can range from seconds to hours. 
 - The components of real-time data analytics include:
 
-    Aggregator — Compiles real time streaming data analytics from many different data sources.
-    Broker — Makes data in real time available for use.
-    Analytics Engine — Correlates values and blends data streams together while analyzing the data.
+    Aggregator — Combines from many different data sources.
+    Broker — message passing.
+    Analytics Engine — analyzing the data.
     Stream Processor — Executes real time app analytics and logic by receiving and sending data streams. 
-- real time analytics possible include:
-
-    Processing In Memory (PIM) — Latency is reduced by integrating the processor in a memory chip.
-    In-Database Analytics — Data processing happens within the database and the analytic logic is also built into the database.
-    In-Memory Analytics — Queries data in random access memory (RAM) instead of physical disks.
-    Massively Parallel Programming (MPP) — Multiple processors tackle different parts of a program and each processor has its own operating system and memory.
 
 
 ![picture 24](../images/06d42d8e2546820e1b0c81af2e2479e1b1a4f27b53d627e35b79a6356f91d83f.png)  

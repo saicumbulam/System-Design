@@ -24,7 +24,6 @@
 
 - This refers to breaking up a large data set into partitions.
 - Partitioning is also known as sharding.
-- Partitions are known as shards in MongoDB, Elasticsearch and SolrCloud, regions in Hbase, tablets in Bigtable, vnodes in Cassandra and Riak, and vBucket in Couchbase.
 - Normally, each piece of data belongs to only one partition.
 - Scalability is the main reason for partitioning data. It enables a large dataset to be distributed across many disks, and a query load can be distributed across many processors.
 

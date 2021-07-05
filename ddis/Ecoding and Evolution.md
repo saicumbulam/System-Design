@@ -1,8 +1,6 @@
 - [Encoding and Evolution](#encoding-and-evolution)
   - [Evolvability](#evolvability)
   - [Rolling upgrade](#rolling-upgrade)
-  - [Backward Compatibility](#backward-compatibility)
-  - [Forward Compatibility](#forward-compatibility)
   - [Formats for Encoding Data](#formats-for-encoding-data)
     - [Programs working with data](#programs-working-with-data)
     - [Translation between the two representation](#translation-between-the-two-representation)
@@ -27,11 +25,9 @@
     - [RPC](#rpc)
       - [RPC calls vs Network](#rpc-calls-vs-network)
       - [RPC problems](#rpc-problems)
-      - [RPC needs](#rpc-needs)
       - [How exactly do RPCs differ from REST? Is it just the way the endpoints look?](#how-exactly-do-rpcs-differ-from-rest-is-it-just-the-way-the-endpoints-look)
   - [Message-Passing Dataflow](#message-passing-dataflow)
     - [Asynchronous message-passing](#asynchronous-message-passing)
-    - [Advantages of a message broker](#advantages-of-a-message-broker)
     - [Message brokers](#message-brokers)
   - [Distributed actor frameworks](#distributed-actor-frameworks)
     - [Popular distributed actor frameworks are:](#popular-distributed-actor-frameworks-are)
@@ -40,21 +36,21 @@
 
 ## Evolvability
 
-Systems that make it easy to adapt to change: Evolvability.
+Evolvability: Systems that make it easy to adapt to change
 
 ## Rolling upgrade
 
 - Rolling upgrade: Deploying a new version to a few nodes at a time, checking whether the new version is running smoothly, and gradually working your way through all the nodes.
 - new and old versions of the code, and old and new data formats may potentially all coexist in the system at the same time. For a system to run smoothly, compatibility needs to be in both directions.
 
-## Backward Compatibility
+**Backward Compatibility**
 
 - Newer code can read data that was written by older code. Simpler to achieve.
 
-## Forward Compatibility
+**Forward Compatibility**
 
-- Older code can read data written by newer code. This is trickier because it requires older code to ignore additions made by a newer
-version of the code.
+- Older code can read data written by newer code. 
+- This is trickier because it requires older code to ignore additions made by a newer.
 
 ## Formats for Encoding Data
 
@@ -77,8 +73,8 @@ Programs work with data that have at least 2 different representations:
 #### Problems in Language-Specific Formats
 
 - The encoding is tied to a particular programming language, and reading the data in another language is difficult.
-- Versioning data is often an afterthought. They often neglect the problems of backward and forward compatibility.
-- Efficiency is also an afterthought. Java's serialization is notorious for bad performance and bloated encoding.
+- Versioning problems. They often neglect the problems of backward and forward compatibility.
+- Less Efficiency. Java's serialization is notorious for bad performance.
 
 ## JSON, XML, and Binary Variants
 
@@ -92,7 +88,6 @@ Programs work with data that have at least 2 different representations:
 - There's ambiguity around how numbers are encoded. In XML and CSV, there's no distinction between a number and a string.
 - JSON distinguishes both, but does not distinguish integers and floating-point numbers, and does not specify a precision.
 - No support for binary strings (sequences of bytes without a character encoding)
-- Optional schema support for XML and JSON
 
 ### Binary Encoding
 
@@ -102,7 +97,7 @@ Programs work with data that have at least 2 different representations:
 
 #### Different Binary Encodings
 
-Bbinary encodings for JSON (BSON, BJSON, etc) and XML (WBXML, etc).
+Binary encodings for JSON (BSON, BJSON, etc) and XML (WBXML, etc).
 
 #### BSON
 
@@ -116,15 +111,7 @@ Thrift and Protocol Buffers: These are binary encoding libraries. Protocol Buffe
 
 Avro: Another binary encoding format different from the two above. This started out as a sub project of Hadoop.
 
-[x] These encoding libraries have some interesting encoding rules which I skipped: <http://martin.kleppmann.com/2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html>
-
 ## Modes of Dataflow
-
-<span style="background-color: #FFFF00">
-- Recall that it was stated earlier that to send data from one process to another with which you don't share memory, it needs to be encoded as a sequence of bytes. </br>
-- Forward and backward compatibility are important.
-</span>
-
 ## Dataflow Through Databases
 
 - The process that writes to a **database encodes the data, while the process the reads from it decodes** it. It could be the same process doing both, or different processes.
@@ -168,12 +155,6 @@ the client to make requests.
 
 - The client and service may be implemented in different languages, so the RPC library would need to translate datatypes from one language to another.
 
-#### RPC needs
-
-- The new generation of RPC frameworks are explicit about the difference between a remote request and a local function call such as Finagle, Rest.li and GRPC.
-
-- The main focus of RPC frameworks is on requests between services owned by the same organization, typically within the same datacenter.
-
 #### How exactly do RPCs differ from REST? Is it just the way the endpoints look?
 
 ## Message-Passing Dataflow
@@ -183,8 +164,8 @@ the client to make requests.
 - Asynchronous message-passing systems are somewhere between RPC and databases.
 - Similar to RPCs because a client's request is delivered to another process with low latency.
 - Similar to databases in that a message is not sent via a direct network connection, but via an intermediary called a message broker or message queue.
-  
-### Advantages of a message broker
+
+**Advantages of a message broker**
 
 - It can act as a buffer if the recipient is down or unable to receive messages due to overloading.
 - The sender can act without knowing the IP address and port number of the recipient

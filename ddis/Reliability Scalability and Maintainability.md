@@ -7,7 +7,6 @@
   - [Human Errors](#human-errors)
   - [Scalability](#scalability)
     - [Describing Load (System design back of envelope estimation)](#describing-load-system-design-back-of-envelope-estimation)
-  - [Describing Performance](#describing-performance)
   - [Latency vs response time](#latency-vs-response-time)
   - [Maintainability](#maintainability)
   - [Simplicity: Managing Complexity](#simplicity-managing-complexity)
@@ -33,7 +32,6 @@ Typical expectations for software to be termed as reliable are that:
 
 ## Hardware Faults
 - Dealing with hardware faults is to add redundancy to the individual hardware components so that if one fails, it can be replaced. RAID configuration.
-- As data volumes and applications computing demands have increased, there's been a shift towards using software fault-tolerance techniques in preference or in addition to hardware redundancy. 
 - An advantage of these software fault-tolerant systems is that: For a single server system, it requires planned downtime if the machine needs to be rebooted (e.g. to apply operating system security patches). However for a system that can tolerate machine failure, it can be patched one node at a time (without downtime of the entire system - a rolling upgrade)
 
 ## Software Errors 
@@ -56,9 +54,9 @@ Scalability describes the ability to cope with increased load."
 
 ### Describing Load (System design back of envelope estimation)
 Load can be described by the load parameters. The choice of parameters depends on the system architecture. It may be:
-- Requests per second to a web server
+- Requests per second to a web server (RPS)
 - Ratio of reads to writes in a database
-- Number of simultaneously active users in a chat room
+- Number of simultaneously active users in a chat room (Dau)
 - Hit rate on a cache.
 
 **Twitter Case-study**
@@ -78,11 +76,6 @@ Twitter has two main operations:
 Twitter used the first approach initially but they now use approach 1. The downside to approach 2 is that posting a tweet requires a lot of extra work.
 
 Note that Twitter is now implementing a hybrid of both approaches. For most users, tweets continue to be fanned out to home timelines at the time when they are posted. However, for a small number of users with millions of followers (celebrities), they are exempted from the fan out.
-
-## Describing Performance
-load increases in the following two ways:
-- When you increase a load parameter and keep system resources (CPU, memory, network, bandwidth, etc.) unchanged, how is the performance of the system affected?
-- When you increase a load parameter, how much do you need to increase the resources if you want to keep performance unchanged?
 
 ## Latency vs response time
 **Response time** is what the client sees: besides the actual time to process a request(service time), it includes network delays and queuing delays. 
@@ -113,9 +106,9 @@ A good idea is to keep a rolling window of response times of requests in the las
 
 **Approaches for Coping with Load**
 An architecture that is appropriate for one level of load is unlikely to cope with 10 times that load. Different terms that come up for dealing with this include: 
-- vertical scaling: moving to a more powerful machine, scaling out
-- horizontal scaling: distributing the load across multiple smaller machines. 
-- Distributing load across multiple machines is also known as shared-nothing architecture. There's less of a dichotomy between both approaches, and more of a pragmatic mixture of both approaches.
+- vertical scaling
+- horizontal scaling
+- shared-nothing architecture.
 
 ## Maintainability
 Design software in a way that it will minimize pain during maintenance, thereby avoiding the creation of legacy software by ourselves. Three design principles for software systems are:
