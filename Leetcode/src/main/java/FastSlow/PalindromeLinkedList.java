@@ -4,14 +4,10 @@ Output: true
 * */
 package FastSlow;
 
-import InterViewPrep.LinkedList;
-import InterViewPrep.ListNode;
-
 public class PalindromeLinkedList {
-    public static void main(String[] args) {
-        LinkedList linkedList = new LinkedList(new int[] {2,4,6,4,2, 2});
-        linkedList.printLn();
-        System.out.println(Calculate(linkedList.head));
+    class ListNode {
+        int val;
+        ListNode next;
     }
 
     private static boolean Calculate(ListNode root)

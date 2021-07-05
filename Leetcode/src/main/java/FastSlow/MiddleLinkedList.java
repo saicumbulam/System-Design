@@ -1,13 +1,10 @@
 package FastSlow;
 
-import InterViewPrep.LinkedList;
-import InterViewPrep.ListNode;
-
 public class MiddleLinkedList {
-    public static void main(String[] args) {
-        LinkedList linkedList = new LinkedList(new int[] {1,2,3,4,5,6});
-        linkedList.printLn();
-        System.out.println(Calculate(linkedList.head));
+    class ListNode
+    {
+        int value;
+        ListNode next;
     }
 
     private static ListNode Calculate(ListNode root)

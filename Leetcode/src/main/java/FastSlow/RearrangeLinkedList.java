@@ -4,17 +4,11 @@ Output: 2 -> 12 -> 4 -> 10 -> 6 -> 8 -> null
 * */
 package FastSlow;
 
-import InterViewPrep.LinkedList;
-import InterViewPrep.ListNode;
-
 public class RearrangeLinkedList {
-    public static void main(String[] args) {
-        LinkedList linkedList = new LinkedList(new int[] {2,4,6,4,2, 2});
-        linkedList.printLn();
-        System.out.println("-----------");
-        ListNode result = Calculate(linkedList.head);
-        linkedList.head = result;
-        linkedList.printLn();
+    class ListNode
+    {
+        int value;
+        ListNode next;
     }
 
     private static ListNode Calculate(ListNode root)

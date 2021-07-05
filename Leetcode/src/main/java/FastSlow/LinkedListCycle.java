@@ -1,15 +1,11 @@
 package FastSlow;
 
-import InterViewPrep.LinkedList;
-import InterViewPrep.ListNode;
-
 public class LinkedListCycle {
-    public static void main(String[] args) {
-        LinkedList linkedList = new LinkedList(new int[] {1,2,3,4,5,6});
-        linkedList.createCycle();
-        System.out.println(Calculate(linkedList.head));
+    class ListNode
+    {
+        int value;
+        ListNode next;
     }
-
     private static boolean Calculate(ListNode root)
     {
         ListNode slow = root, fast = root;
