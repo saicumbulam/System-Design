@@ -1,12 +1,15 @@
 ## Publish/Subscribe Messaging
-Publish/subscribe messaging is a pattern that is characterized by the sender (publisher) of a piece of data (message)
-receiver (subscriber) subscribes to receive certain classes of messages.
+- Publish/subscribe messaging is a pattern in which sender (publisher) sends piece of data (message)
+to receiver (subscriber) or subscribes to receive messages.
+- It is often described as a “distributed commit log” or more recently as a “distributing streaming platform.”
+Kafka as a queue, message bus, or data storage platform
+
 
 ## Why Kafka
 - Kafka is able to seamlessly handle multiple Producers and consumers of different topics
-- Messages are committed to disk, and will be stored with configurable retention rules. These options can be selected on a per-topic basis, allowing for different streams of messages to have different amounts of retention depending on the consumer needs.
-- Kafka’s flexible scalability makes it easy to handle any amount of data
-- excellent performance under high load. Producers, consumers, and brokers can all be scaled out to handle very large message streams with ease
+- Messages are committed to disk, and will be stored with configurable retention rules. allowing for different streams of messages to have different amounts of retention depending on the consumer needs.
+- scalability makes it easy to handle any amount of data
+- excellent performance under high load.
 
 
 It carries messages between the various members of the infrastructure
@@ -24,16 +27,11 @@ Kafka is also used for messaging, where applications need to send notifications 
 **Metrics and logging**
 Applications publish metrics on a regular basis to a Kafka topic, and those metrics can be consumed by systems for monitoring and alerting. They can also be used in an offline system like Hadoop to perform longer-term analysis, such as growth projections. 
 
-**Commit log**
+**Change log database**
 Since Kafka is based on the concept of a commit log, database changes can be published to Kafka and applications can easily monitor this stream to receive live updates as they happen. This changelog stream can also be used for replicating database updates to a remote system
 
 **Stream processing**
-Hadoop usually relies on aggregation of data over a long time frame, either hours or days. Stream processing operates on data in real time, as quickly as messages are produced. Stream frameworks allow users to write small applications to operate on Kafka messages, performing tasks such as counting metrics, partitioning messages for efficient processing by other applications, or transforming messages using data from multiple sources
-
-
-## Kafka
-Apache Kafka is a publish/subscribe messaging system. It is often described as a “distributed commit log” or more recently as a “distributing streaming platform.”
-Kafka as a queue, message bus, or data storage platform
+Stream processing operates on data in real time, as quickly as messages are produced. Stream frameworks allow users to write small applications to operate on Kafka messages, performing tasks such as counting metrics, partitioning messages for efficient processing by other applications, or transforming messages using data from multiple sources
 
 ## Messages
 - message or an event that gets stored in Kafka. 
@@ -56,9 +54,12 @@ Kafka as a queue, message bus, or data storage platform
 - a stream is considered to be a single topic of data, regardless of the number of partitions. This represents a single stream of data moving from the producers to the consumers.
 - Offset sequences are unique only to each partition. This means, to locate a specific message, we need to know the Topic, Partition, and Offset number.
 - Producers can choose to publish a message to any partition. If ordering within a partition is not needed, a round-robin partition strategy can be used, so records get distributed evenly across partitions.
-- Placing each partition on separate Kafka brokers enables multiple consumers to read from a topic in parallel. That means, different consumers can concurrently read different partitions present on separate brokers.
-- Placing each partition of a topic on a separate broker also enables a topic to hold more data than the capacity of one server.
 - Messages once written to partitions are immutable and cannot be updated.
+
+
+**Advantages of seperate partition placement**  
+- different consumers can concurrently read different partitions present on separate brokers.
+- a topic to hold more data than the capacity of one server.
 
 ![picture 1](../images/e34b6e2d3a3c93b67b68431711f2d56cb4e711f49ed7f5c4ea1a3f8fac31110d.png)  
 
@@ -80,7 +81,7 @@ Kafka as a queue, message bus, or data storage platform
 **Consumer group** 
 - one or more consumers that work together to consume a topic. 
 - The group assures that each partition is only consumed by one member. 
-- The mapping of a consumer to a partition is often called ownership of the partition by the consumer.
+- The mapping of a consumer to a partition is often called *ownership of the partition by the consumer*.
 - consumers can horizontally scale to consume topics with a large number of messages. Additionally, if a single consumer fails, the remaining members of the group will rebalance the partitions being consumed to take over for the missing member.
 
 ![picture 2](../images/d08a2fe5d11d27abcd637e464806229be1450a75db1e952eb1f2ab6b5d1193ce.png)  
@@ -105,7 +106,7 @@ Kafka brokers are designed to operate as part of a cluster. Within a cluster of 
 
 ![picture 3](../images/910768472656c88ecaafd7dfb1ff001640a86c6165533010dba72712d6d81996.png)  
 
-- Apache Kafka is that of retention, which is the durable storage of messages for some period of time. Kafka brokers are configured with a default retention setting for topics, either retaining messages for some period of time (e.g., 7 days) or until the topic reaches a certain size in bytes (e.g., 1 GB). 
+-  Kafka brokers are configured with a default retention setting for topics, either retaining messages for some period of time (e.g., 7 days) or until the topic reaches a certain size in bytes (e.g., 1 GB). 
 
 - Controller periodically checks the health of other brokers in the system. In case it does not receive a response from a particular broker, it performs a failover to another broker. It also communicates the result of the partition leader election to other brokers in the system.
 
@@ -116,7 +117,6 @@ Kafka brokers are designed to operate as part of a cluster. Within a cluster of 
 **Reasons why multiple data centers**
 - Segregation of types of data
 - Isolation for security requirements
-- Multiple datacenters
 
 - In multiple datacenters messages be copied between them. 
   
@@ -127,8 +127,18 @@ Kafka brokers are designed to operate as part of a cluster. Within a cluster of 
 
 ![picture 4](../images/2f6dd0bb705889178f6ece4719ec829a98dd82ad053aaeb4752f270adb8e24f6.png)  
 
-### User Cases
-Regional and central clustersIn some cases, the company has one or more datacenters in different geographical regions, cities, or continents. Each datacenter has its own Kafka cluster. Some applications can work just by communicating with the local cluster, but some applications require data from multiple datacenters (otherwise, you wouldn’t be looking at cross datacenter replication solutions). There are many cases when this is a requirement, but the classic example is a company that modifies prices based on supply and demand. This company can have a datacenter in each city in which it has a presence, collects information about local supply and demand, and adjusts prices accordingly. All this information will then be mirrored to a central cluster where business analysts can run company-wide reports on its revenue.High availability (HA) and disaster recovery (DR)The applications run on just one Kafka cluster and don’t need data from other locations, but you are concerned about the possibility of the entire cluster becoming unavailable for some reason. For redundancy, you’d like to have a second Kafka cluster with all the data that exists in the first cluster, so in case of emergency you can direct your applications to the second cluster and continue as usual.Regulatory complianceCompanies operating in different countries may need to use different configurations and policies to conform to legal and regulatory requirements in each country. For instance, some data sets may be stored in separate clusters with strict access control, with subsets of data replicated to other clusters with wider access. To comply with regulatory policies that govern retention period in each region, data sets may be stored in clusters in different regions with different configurations.Cloud migrationsMany companies these days run their business in both an on-premise datacenter and a cloud provider. Often, applications run on multiple regions of the cloud provider, for redundancy, and sometimes multiple cloud providers are used. In these cases, there is often at least one Kafka cluster in each on-premise datacenter and each cloud region. Those Kafka clusters are used by applications in each datacenter and region to transfer data efficiently between the datacenters. For example, if a new application is deployed in the cloud but requires some data that is updated by applications running in the on-premise datacenter and stored in an on-premise database, you can use Kafka Connect to capture database changes to the local Kafka cluster and then mirror these changes to the cloud Kafka cluster where the new application can use them. This helps control the costs of cross-datacenter traffic as well as improve governance and security of the traffic.Aggregation of data from edge clustersSeveral industries including retail, telecommunications, transportation and healthcare generate data from small devices with limited connectivity. An aggregate cluster with high availability can be used to support analytics and other use cases for data from a large number of edge clusters. This reduces connectivity, availability and durability requirements on low-footprint edge clusters, for example, in IoT use cases. A highly available aggregate cluster provides business continuity even when edge clusters are offline and simplifies the development of applications that don’t have to directly deal with a large number of edge clusters with unstable networks.
+### Use Cases
+- **Regional and central clusters**
+the company has one or more datacenters in different geographical regions, cities, or continents. Each datacenter has its own Kafka cluster.  
+> There are many cases when this is a requirement, but the classic example is a company that modifies prices based on supply and demand. This company can have a datacenter in each city in which it has a presence, collects information about local supply and demand, and adjusts prices accordingly. All this information will then be mirrored to a central cluster where business analysts can run company-wide reports on its revenue.
+
+- **High availability (HA) and disaster recovery (DR)**
+- Regulatory compliance
+Companies operating in different countries may need to use different configurations and policies to conform to legal and regulatory requirements in each country. For instance, some data sets may be stored in separate clusters with strict access control, with subsets of data replicated to other clusters with wider access. To comply with regulatory policies that govern retention period in each region, data sets may be stored in clusters in different regions with different configurations.
+- **Cloud migrations**
+Many companies these days run their business in both an on-premise datacenter and a cloud provider. Often, applications run on multiple regions of the cloud provider, for redundancy, and sometimes multiple cloud providers are used. In these cases, there is often at least one Kafka cluster in each on-premise datacenter and each cloud region. Those Kafka clusters are used by applications in each datacenter and region to transfer data efficiently between the datacenters. For example, if a new application is deployed in the cloud but requires some data that is updated by applications running in the on-premise datacenter and stored in an on-premise database, you can use *Kafka Connect* to capture database changes to the local Kafka cluster and then mirror these changes to the cloud Kafka cluster where the new application can use them. This helps control the costs of cross-datacenter traffic as well as improve governance and security of the traffic.
+-  **Aggregation of data from edge clusters**
+Several industries including retail, telecommunications, transportation and healthcare generate data from small devices with limited connectivity. An aggregate cluster with high availability can be used to support analytics and other use cases for data from a large number of edge clusters. This reduces connectivity, availability and durability requirements on low-footprint edge clusters, for example, in IoT use cases. A highly available aggregate cluster provides business continuity even when edge clusters are offline and simplifies the development of applications that don’t have to directly deal with a large number of edge clusters with unstable networks.
 
 
 
