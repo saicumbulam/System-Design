@@ -1,0 +1,46 @@
+
+o
+java:S1192t"RDefine a constant instead of duplicating this literal "We have a problem" 4 times.(¤«ë8²ŒÇ§/
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…£¡¡ıÿÿÿÿ
+D
+java:S1604o"(Make this anonymous inner class a lambda(ô§ê8´ŒÇ§/
+E
+java:S1604ƒ"(Make this anonymous inner class a lambda(ô§ê8´ŒÇ§/
+U
+java:S1197"8Move the array designator from the variable to the type.(‘–µ¥8¶ŒÇ§/
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(Õşı­ıÿÿÿÿ8¸ŒÇ§/
+U	java:S106"9Replace this use of System.out or System.err by a logger.(ÚÂâ8¹ŒÇ§/
+Q
+java:S6212""/Declare this local variable with "var" instead.(‘ß¯æùÿÿÿÿ8ºŒÇ§/
+C
+java:S1125;"'Remove the unnecessary boolean literal.(ş£Å~8¼ŒÇ§/
+U	java:S106B"9Replace this use of System.out or System.err by a logger.(»ò»à8¼ŒÇ§/
+U	java:S106C"9Replace this use of System.out or System.err by a logger.(ÚÂâ8½ŒÇ§/
+Q
+java:S6212H"/Declare this local variable with "var" instead.(‘ß¯æùÿÿÿÿ8½ŒÇ§/
+o
+java:S3776g"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(ôö©8ÀŒÇ§/
+Q
+java:S6212j"/Declare this local variable with "var" instead.(Îœê˜üÿÿÿÿ8ÀŒÇ§/
+{
+java:S2293k"YReplace the type specification in this constructor call with the diamond operator ("<>").(ıÃüùÿÿÿÿ8ÁŒÇ§/
+Q
+java:S6212m"/Declare this local variable with "var" instead.(Å‚ÉÎúÿÿÿÿ8ÁŒÇ§/
+K
+java:S6212o"/Declare this local variable with "var" instead.(ô§ê8ÁŒÇ§/
+€
+java:S2142s"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(øôÔ×ûÿÿÿÿ8ÃŒÇ§/
+b
+java:S2147v"ECombine this catch with the one at line 115, which has the same body.(Î¨Çª8ÃŒÇ§/
+U	java:S106t"9Replace this use of System.out or System.err by a logger.(¤«ë8ÄŒÇ§/
+U	java:S106w"9Replace this use of System.out or System.err by a logger.(¤«ë8ÄŒÇ§/
+M
+java:S6212‚"/Declare this local variable with "var" instead.(ùşÕæ8ÅŒÇ§/
+L
+java:S6212ƒ"/Declare this local variable with "var" instead.(ô§ê8ÅŒÇ§/
+
+java:S2142‡"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(øôÔ×ûÿÿÿÿ8ÅŒÇ§/
+c
+java:S2147Š"ECombine this catch with the one at line 135, which has the same body.(Î¨Çª8ÆŒÇ§/
+V	java:S106ˆ"9Replace this use of System.out or System.err by a logger.(¤«ë8ÆŒÇ§/
+V	java:S106‹"9Replace this use of System.out or System.err by a logger.(¤«ë8ÆŒÇ§/

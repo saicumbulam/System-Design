@@ -1,0 +1,22 @@
+
+=
+java:S2189""Add an end condition to this loop.(˜ïˆÿÿÿÿÿ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…£¡¡ıÿÿÿÿ
+N
+java:S1197"8Move the array designator from the variable to the type.(‘–µ¥
+S	java:S106-"9Replace this use of System.out or System.err by a logger.( Îöÿÿÿÿÿ
+y
+java:S21427"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(øôÔ×ûÿÿÿÿ
+C	java:S1087")Either remove or fill this block of code.(øôÔ×ûÿÿÿÿ
+J
+java:S6212="/Declare this local variable with "var" instead.(øÿ¯‚úÿÿÿÿ
+J
+java:S6212?"/Declare this local variable with "var" instead.(Üóä‘ÿÿÿÿÿ
+J
+java:S6212A"/Declare this local variable with "var" instead.(öĞº×ıÿÿÿÿ
+D
+java:S6212C"/Declare this local variable with "var" instead.(ô´n
+E
+java:S6212E"/Declare this local variable with "var" instead.(çÕúµ
+D
+java:S6212G"/Declare this local variable with "var" instead.(ö´œ

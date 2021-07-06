@@ -1,0 +1,27 @@
+
+g	java:S1126"FDefine and throw a dedicated exception instead of using a generic one.(ÄÖùÿÿÿÿ8¯ø›Ç§/
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…£¡¡ıÿÿÿÿ
+E
+java:S1604"(Make this anonymous inner class a lambda(ÿë“Ÿ8°ø›Ç§/
+Z
+java:S1197"8Move the array designator from the variable to the type.(ùï¾ÿÿÿÿÿ8²ø›Ç§/
+Q
+java:S6212"/Declare this local variable with "var" instead.(ëå¥îøÿÿÿÿ8²ø›Ç§/
+N
+java:S1602",Remove useless curly braces around statement(¢ò˜Šùÿÿÿÿ8³ø›Ç§/
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(óÅ©ûÿÿÿÿ8´ø›Ç§/
+Z	java:S106
+"9Replace this use of System.out or System.err by a logger.(í­¡Ìúÿÿÿÿ8´ø›Ç§/
+Q
+java:S6212"/Declare this local variable with "var" instead.(ÈÏ¨Üùÿÿÿÿ8·ø›Ç§/
+Q
+java:S6212"/Declare this local variable with "var" instead.(ğ¬™°şÿÿÿÿ8·ø›Ç§/
+R
+java:S2446""0"notify" may not wake up the appropriate thread.(·³’Æûÿÿÿÿ8¸ø›Ç§/
+
+java:S11306"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(ÄÖùÿÿÿÿ8ºø›Ç§/
+Q
+java:S62128"/Declare this local variable with "var" instead.(ñ˜²àùÿÿÿÿ8»ø›Ç§/
+€
+java:S2142<"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(øôÔ×ûÿÿÿÿ8¼ø›Ç§/
+J	java:S108<")Either remove or fill this block of code.(øôÔ×ûÿÿÿÿ8½ø›Ç§/

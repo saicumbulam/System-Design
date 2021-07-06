@@ -1,0 +1,19 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…£¡¡ıÿÿÿÿ
+N
+java:S1197"8Move the array designator from the variable to the type.(‘–µ¥
+j	java:S116"URename this field "MAX_TOKENS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(šÈëš
+^
+java:S2276"CReplace the call to "Thread.sleep(...)" with a call to "wait(...)".(ÕÌ²ıÿÿÿÿ
+N	java:S106%"9Replace this use of System.out or System.err by a logger.(»Ï…
+t
+java:S2293*"YReplace the type specification in this constructor call with the diamond operator ("<>").(ıÃüùÿÿÿÿ
+J
+java:S6212+"/Declare this local variable with "var" instead.(şÎ“²øÿÿÿÿ
+D
+java:S62121"/Declare this local variable with "var" instead.(Ğ€Ìi
+E
+java:S62123"/Declare this local variable with "var" instead.(®Ì»ê
+y
+java:S21426"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(øôÔ×ûÿÿÿÿ
+N	java:S1067"9Replace this use of System.out or System.err by a logger.(¤«ë

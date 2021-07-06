@@ -1,0 +1,22 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(­§“Å
+=
+java:S1659""Declare "row2" on a separate line.(éÏıÿÿÿÿ
+=
+java:S1659""Declare "col1" on a separate line.(éÏıÿÿÿÿ
+=
+java:S1659""Declare "col2" on a separate line.(éÏıÿÿÿÿ
+<
+java:S1659"!Declare "sum" on a separate line.(éÏıÿÿÿÿ
+6
+java:S1659" Declare "c2" on a separate line.(·íî«
+6
+java:S1659" Declare "c3" on a separate line.(·íî«
+6
+java:S1659" Declare "c4" on a separate line.(·íî«
+J
+java:S6212"/Declare this local variable with "var" instead.(¤ÛÌ‰ÿÿÿÿÿ
+N	java:S106"9Replace this use of System.out or System.err by a logger.(÷¶£‘
+N	java:S106"9Replace this use of System.out or System.err by a logger.(÷¶£‘
+J
+java:S6212""/Declare this local variable with "var" instead.(‡ä‡ôüÿÿÿÿ

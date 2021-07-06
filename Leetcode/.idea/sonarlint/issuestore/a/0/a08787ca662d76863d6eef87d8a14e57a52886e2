@@ -1,0 +1,27 @@
+
+b	java:S1016"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(„ùé
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…£¡¡ıÿÿÿÿ
+’
+java:S1130"wRemove the declaration of thrown exception 'java.lang.InterruptedException', as it cannot be thrown from method's body.(ÔÔÊ¦ÿÿÿÿÿ
+N	java:S106"9Replace this use of System.out or System.err by a logger.(©»·Û
+M	java:S106#"9Replace this use of System.out or System.err by a logger.(ñ¡¼
+N	java:S1060"9Replace this use of System.out or System.err by a logger.(€Èå
+U
+java:S1161A":Add the "@Override" annotation above this method signature(ÿŸ¾Ğüÿÿÿÿ
+y
+java:S2142J"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ÇâŞáøÿÿÿÿ
+C	java:S108K")Either remove or fill this block of code.(ÒÌâ–øÿÿÿÿ
+y
+java:S2142V"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ÇâŞáøÿÿÿÿ
+C	java:S108W")Either remove or fill this block of code.(ÒÌâ–øÿÿÿÿ
+y
+java:S2142b"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ÇâŞáøÿÿÿÿ
+C	java:S108c")Either remove or fill this block of code.(ÒÌâ–øÿÿÿÿ
+J
+java:S6212n"/Declare this local variable with "var" instead.(ÄÅá¨úÿÿÿÿ
+E
+java:S6212p"/Declare this local variable with "var" instead.(”Ìæ
+J
+java:S6212q"/Declare this local variable with "var" instead.(„‰¹úÿÿÿÿ
+E
+java:S6212r"/Declare this local variable with "var" instead.(¬¦×õ

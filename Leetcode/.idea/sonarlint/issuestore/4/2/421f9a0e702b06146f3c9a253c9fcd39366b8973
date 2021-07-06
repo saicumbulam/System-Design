@@ -1,0 +1,40 @@
+
+D
+java:S21890""Add an end condition to this loop.(˜ïˆžÿÿÿÿÿ8š»…Ç§/
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…£¡¡ýÿÿÿÿ
+E
+java:S1604@"(Make this anonymous inner class a lambda(Ž®ƒ…8œ»…Ç§/
+J
+java:S1604L"(Make this anonymous inner class a lambda(€á€‹þÿÿÿÿ8œ»…Ç§/
+J
+java:S1604d"(Make this anonymous inner class a lambda(€á€‹þÿÿÿÿ8œ»…Ç§/
+U
+java:S1197"8Move the array designator from the variable to the type.(‘–µ¥8ž»…Ç§/
+r	java:S116"QRename this field "CHAIRS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(äÑ¢Ÿøÿÿÿÿ8ž»…Ç§/
+C
+java:S1170"!Make this final field static too.(äÑ¢Ÿøÿÿÿÿ8Ÿ»…Ç§/
+U	java:S106"9Replace this use of System.out or System.err by a logger.(Î”¿«8¡»…Ç§/
+Z	java:S1064"9Replace this use of System.out or System.err by a logger.(öŒã«ýÿÿÿÿ8¢»…Ç§/
+{
+java:S2293="YReplace the type specification in this constructor call with the diamond operator ("<>").(âÙÝäýÿÿÿÿ8£»…Ç§/
+L
+java:S6212>"/Declare this local variable with "var" instead.(¾îˆì8£»…Ç§/
+L
+java:S6212@"/Declare this local variable with "var" instead.(Ž®ƒ…8£»…Ç§/
+€
+java:S2142D"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(øôÔ×ûÿÿÿÿ8¥»…Ç§/
+J	java:S108D")Either remove or fill this block of code.(øôÔ×ûÿÿÿÿ8¥»…Ç§/
+Q
+java:S6212K"/Declare this local variable with "var" instead.(Å‚ÉÎúÿÿÿÿ8¦»…Ç§/
+Q
+java:S6212L"/Declare this local variable with "var" instead.(€á€‹þÿÿÿÿ8¦»…Ç§/
+€
+java:S2142P"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(øôÔ×ûÿÿÿÿ8¦»…Ç§/
+J	java:S108P")Either remove or fill this block of code.(øôÔ×ûÿÿÿÿ8§»…Ç§/
+L
+java:S6212c"/Declare this local variable with "var" instead.(Ñ·½À8¨»…Ç§/
+Q
+java:S6212d"/Declare this local variable with "var" instead.(€á€‹þÿÿÿÿ8¨»…Ç§/
+€
+java:S2142h"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(øôÔ×ûÿÿÿÿ8©»…Ç§/
+J	java:S108h")Either remove or fill this block of code.(øôÔ×ûÿÿÿÿ8©»…Ç§/

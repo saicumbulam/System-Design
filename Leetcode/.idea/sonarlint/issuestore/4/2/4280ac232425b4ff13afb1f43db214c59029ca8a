@@ -1,0 +1,7 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(×ĞıÜùÿÿÿÿ
+c	java:S100	"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(íØ™
+8
+java:S1659""Declare "fast" on a separate line.(× ¤
+D
+java:S1144	".Remove this unused private "Calculate" method.(íØ™

@@ -1,0 +1,7 @@
+
+^
+java:S3824"HReplace this "Map.containsKey()" with a call to "Map.computeIfAbsent()".(ª´ÁÔ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(—··
+N	java:S106"9Replace this use of System.out or System.err by a logger.(®ğÉ¬
+J
+java:S6212"/Declare this local variable with "var" instead.(ä‡°ğûÿÿÿÿ

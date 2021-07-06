@@ -1,0 +1,27 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…£¡¡ıÿÿÿÿ
+N
+java:S1197"8Move the array designator from the variable to the type.(‘–µ¥
+J
+java:S6212"/Declare this local variable with "var" instead.(¶õøèùÿÿÿÿ
+E
+java:S6212"/Declare this local variable with "var" instead.(ÈÕâü
+y
+java:S2142"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(øôÔ×ûÿÿÿÿ
+E
+java:S6212
+"/Declare this local variable with "var" instead.(Ñ·½À
+N	java:S106"9Replace this use of System.out or System.err by a logger.(âÍ”
+C	java:S108")Either remove or fill this block of code.(øôÔ×ûÿÿÿÿ
+J
+java:S6212"/Declare this local variable with "var" instead.(Òáî™úÿÿÿÿ
+E
+java:S6212"/Declare this local variable with "var" instead.(Ñ·½À
+y
+java:S2142"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(øôÔ×ûÿÿÿÿ
+S	java:S106"9Replace this use of System.out or System.err by a logger.(€…ÇŠûÿÿÿÿ
+C	java:S108")Either remove or fill this block of code.(øôÔ×ûÿÿÿÿ
+K
+java:S24465"0"notify" may not wake up the appropriate thread.(óÄ£¶øÿÿÿÿ
+K
+java:S2446@"0"notify" may not wake up the appropriate thread.(óÄ£¶øÿÿÿÿ

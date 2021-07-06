@@ -1,0 +1,29 @@
+
+=
+java:S2189"""Add an end condition to this loop.(˜ïˆÿÿÿÿÿ
+Y
+java:S1155&">Use isEmpty() to check whether the collection is empty or not.(Õ‡Ü‹úÿÿÿÿ
+Y
+java:S1155*">Use isEmpty() to check whether the collection is empty or not.(íÙêÓşÿÿÿÿ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…£¡¡ıÿÿÿÿ
+>
+java:S1604L"(Make this anonymous inner class a lambda(œÜ‹¢
+=
+java:S1604Y"(Make this anonymous inner class a lambda(ô§ê
+N	java:S8990":Do something with the "boolean" value returned by "await".(÷¿±r
+N	java:S1064"9Replace this use of System.out or System.err by a logger.(ÆÀûı
+t
+java:S2293I"YReplace the type specification in this constructor call with the diamond operator ("<>").(ıÃüùÿÿÿÿ
+E
+java:S6212J"/Declare this local variable with "var" instead.(£Èê°
+E
+java:S6212L"/Declare this local variable with "var" instead.(œÜ‹¢
+y
+java:S2142P"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(øôÔ×ûÿÿÿÿ
+C	java:S108P")Either remove or fill this block of code.(øôÔ×ûÿÿÿÿ
+J
+java:S6212X"/Declare this local variable with "var" instead.(Å‚ÉÎúÿÿÿÿ
+D
+java:S6212Y"/Declare this local variable with "var" instead.(ô§ê
+E
+java:S6212["/Declare this local variable with "var" instead.(â—°Ğ
