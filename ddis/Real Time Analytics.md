@@ -1,3 +1,11 @@
+- [Real Time Analytics](#real-time-analytics)
+  - [How Do Real Time Analytics Work?](#how-do-real-time-analytics-work)
+  - [Event driven architecture](#event-driven-architecture)
+    - [Amazon SNS](#amazon-sns)
+  - [Hexagonal architecture](#hexagonal-architecture)
+  - [Peer to peer](#peer-to-peer)
+  - [Decentralized architecture](#decentralized-architecture)
+
 # Real Time Analytics
 ![picture 23](../images/55f4d16f7a4a82b1329832e010b6f9547a67b426f9892a2fb70516665d490462.png)  
 
