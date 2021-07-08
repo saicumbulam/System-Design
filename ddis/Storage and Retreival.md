@@ -2,6 +2,12 @@
 - [Log-Structured Storage Engines](#log-structured-storage-engines)
   - [Indexing](#indexing)
     - [Hash Index](#hash-index)
+      - [Fitting in Memory](#fitting-in-memory)
+      - [Segmenting](#segmenting)
+      - [Compaction](#compaction)
+      - [Best Practices for Hash Indexing](#best-practices-for-hash-indexing)
+      - [Why append only](#why-append-only)
+      - [limitations to the hash table index:](#limitations-to-the-hash-table-index)
     - [SSTables and LSM-Trees](#sstables-and-lsm-trees)
       - [Constructing and maintaining SSTables](#constructing-and-maintaining-sstables)
       - [Making an LSM-tree out of SSTables](#making-an-lsm-tree-out-of-sstables)
@@ -31,66 +37,60 @@
 There's a difference between storage engines that are optimized for transactional workloads and those that are optimized for analytics.
 
 # Storage Engines
-There are two families of storage engines: log-structured storage engines (log structured merge trees), and page-oriented storage engines (b-trees). A storage engine’s job is to write things to disk on a single node.
-
+There are two families of storage engines: log-structured storage engines (log structured merge trees), and page-oriented storage engines (b-trees).
 # Log-Structured Storage Engines
 
 Many databases internally use a log, an append-only data file for adding something to it. Each line in the log contains a key-value pair, separated by a comma (similar to a CSV file, ignoring escaping issues). The log does not have to be internally-readable, it might be binary and intended only for other programs to read.
 
 ## Indexing
 
-An index is an additional structure derived from the primary data. Any kind of index usually slows down writes, since the index has to be updated every time data is written.
-
-Well-chosen indexes speed up read queries, but every index slows down writes.
+1. An index is an additional structure derived from the primary data. Any kind of index usually slows down writes, since the index has to be updated every time data is written.
+2. Well-chosen indexes speed up read queries, but every index slows down writes.
 
 ### Hash Index
 
 These are indexes for key-value data. For a data storage that consists of only appending to a file, a simple indexing strategy is to keep an in-memory hash map where the value for every key is a byte offset, which indicates where the key is located in the file.
 
-Bitcask (the default storage engine in Riak - Riak is a distributed datastore similar to Cassandra) uses the approach above. The only requirement is that all the keys fit in the available RAM as the hash map is kept completely in memory. The values don't have to fit in memory since they can be loaded from disk with a simple disk seek. Something like Bitcask is suitable for situations where the value for a key is updated frequently.
+#### Fitting in Memory
+The only requirement is that all the keys fit in the available RAM as the hash map is kept completely in memory. The values don't have to fit in memory since they can be loaded from disk with a simple disk seek.
 
-The obvious challenge in appending to a file is that the file can grow too large and then we run out of disk space. A solution to this is to break the log into segments of a certain size. A segment file is closed when it reaches that size, and subsequent writes are made to a new segment.
+#### Segmenting
+1. The obvious challenge in appending to a file is that the file can grow too large and then we run out of disk space. A solution to this is to break the log into segments of a certain size. A segment file is closed when it reaches that size, and subsequent writes are made to a new segment.
+2. We can then perform compaction on these segments. Compaction means keeping the most recent update for each key and throwing away duplicate keys. Compaction often makes segments smaller, and so we can merge several segments together at the same time as performing the compaction.
+#### Compaction
+1. Basically, we compact and merge segment files together. The merged segment is written to a new file. This can happen as a background process, so the old segment files can still serve read and write requests until the merging process is complete.
+2. Each segment will have its own in-memory hash table. To find a value for a key, we'll check the most recent segment. If it's not there, we'll check the second-most-recent segment, and so on.
 
-We can then perform compaction on these segments. Compaction means keeping the most recent update for each key and throwing away duplicate keys. Compaction often makes segments smaller (relies on the assumption that a key is overwritten several times on average within one segment), and so we can merge several segments together at the same time as performing the compaction.
+#### Best Practices for Hash Indexing
+**File Format:** As opposed to using a CSV format, it's faster and simpler to use a binary format that first encodes the length of a string in bytes, followed by the raw string.
+**Deleting Records:** a special deletion record is appended to the data file (sometimes called a tombstone). When log segments are merged, the tombstone tells the merging process to discard any previous values for the deleted key.
+**Crash Recovery:** If the database is restarted, the in-memory hash maps will be lost. In principle, the segment's hash maps can be restored by reading the entire segment files and constructing the hash maps from scratch. This might take a while though, so could make server restarts painful. 
+**Concurrency Control:** Since writes are appended in a sequential order, a common implementation is to have only one writer thread. Data files are append-only and otherwise immutable, so they can be read concurrently by multiple threads.
 
-Basically, we compact and merge segment files together. The merged segment is written to a new file. This can happen as a background process, so the old segment files can still serve read and write requests until the merging process is complete.
-
-Each segment will have its own in-memory hash table. To find a value for a key, we'll check the most recent segment. If it's not there, we'll check the second-most-recent segment, and so on.
-
-There are certain practical issues that must be considered in a real life implementation of this hash index in a log structure. Some of them are:
-
-File Format: As opposed to using a CSV format, it's faster and simpler to use a binary format that first encodes the length of a string in bytes, followed by the raw string.
-Deleting Records: To delete a key and its value, it's not practical to search for all the occurrences of that key in the segments. What happens is that a special deletion record is appended to the data file (sometimes called a tombstone). When log segments are merged, the tombstone tells the merging process to discard any previous values for the deleted key.
-Crash Recovery: If the database is restarted, the in-memory hash maps will be lost. In principle, the segment's hash maps can be restored by reading the entire segment files and constructing the hash maps from scratch. This might take a while though, so could make server restarts painful. Bitcask's approach to recovery is by storing a snapshot of each segment's hash map on disk, which can be loaded into memory more quickly
-Concurrency Control: Since writes are appended in a sequential order, a common implementation is to have only one writer thread. Data files are append-only and otherwise immutable, so they can be read concurrently by multiple threads.
-
-There are good reasons why an append-only log is a good choice, as opposed to a storage where files are updated in place with the new value overwriting the old one. Some of those reasons are:
-
-Appending and segment merging are sequential write operations, which are generally faster than random writes, especially on magnetic spinning-disk hard drives.
-Concurrency and crash recovery are simpler if segment files are append-only or immutable. For crash recovery, you don't need to worry if a crash happened while a value was being overwritten, leaving you with partial data.
+#### Why append only
+Some of those reasons are:
+1. Appending and segment merging are sequential write operations, which are generally faster than random writes, especially on magnetic spinning-disk hard drives.
+2. Concurrency and crash recovery are simpler if segment files are append-only or immutable. For crash recovery, you don't need to worry if a crash happened 
+3. while a value was being overwritten, leaving you with partial data.
 Merging old segments avoids the problem of data files getting fragmented over time. Fragmentation occurs on a hard drive, a memory module, or other media when data is not written closely enough physically on the drive. Those fragmented, individual pieces of data are referred to generally as fragments.
-
 Basically, when data files are far from each other, it's a form of fragmentation.
 
-There are limitations to the hash table index though, some of them are:
-
-The hash table must fit in memory, so it's not efficient if there are a large number of keys. An option is to maintain a map on disk, but it doesn't perform so well. It requires a lot of random access I/O, is expensive to grow when it becomes full, and hash collisions require fiddly logic.
-Range queries are not efficient. You have to look up each key individually in the map.
-
-So, in this approach, writes are made to the segments on a disk while the hash table index being stored is in-memory.
+#### limitations to the hash table index:
+1. The hash table must fit in memory, so it's not efficient if there are a large number of keys. 
+2. An option is to maintain a map on disk, but it doesn't perform so well. It requires a lot of random access I/O, is expensive to grow when it becomes full, and hash collisions require fiddly logic.
+3. Range queries are not efficient. You have to look up each key individually in the map.
+4. writes are made to the segments on a disk while the hash table index being stored is in-memory.
 
 ### SSTables and LSM-Trees
 
-In log segments with hash indexes, each key-value pair appears in the order that it was written, and values later in the log take precedence over values for the same key earlier in the log. Apart from that, the order of key-value pairs in the file is irrelevant.
-
-There is a change to this approach in a Sorted String Table format, or SSTable for short. Here, it is required that the sequence of key-value pairs is sorted by key. Hence, new key-value pairs cannot be appended to the segment immediately. There are several advantages to this over log segments with hash indexes:
-
-    Merging segments is simple and efficient. The approach here is similar to the mergesort algorithm. The same principle as the log with hash indexes applies if a key is duplicated across several segments. We keep the most recent one and discard the others.
-    You don't need to keep an index of all the keys in memory. Because the file is sorted, if you're looking for the offset of a particular key, it won't be difficult to find that offset once you can determine the offset of keys that are smaller and larger than it in the ordering.
-
+In log segments with hash indexes, each key-value pair appears in the order that it was written, and values later in the log take precedence over values for the same key earlier in the log. 
+Apart from that, the order of key-value pairs in the file is irrelevant.
+There is a change to this approach in a Sorted String Table format, or SSTable for short. Here, it is required that the sequence of key-value pairs is sorted by key. 
+Hence, new key-value pairs cannot be appended to the segment immediately. There are several advantages to this over log segments with hash indexes:
+Merging segments is simple and efficient. The approach here is similar to the mergesort algorithm. The same principle as the log with hash indexes applies if a key is duplicated across several segments. We keep the most recent one and discard the others.
+You don't need to keep an index of all the keys in memory. Because the file is sorted, if you're looking for the offset of a particular key, it won't be difficult to find that offset once you can determine the offset of keys that are smaller and larger than it in the ordering.
 You still need an in-memory index to tell you the offsets of some keys, but it can be sparse.
-
-    Read requests often need to scan over several key-value pairs, therefore it is possible to group the records into a block and compress it before writing it to disk. Each entry of the sparse index then points to the start of a compressed block. This has the advantage of saving disk space and reducing the IO bandwidth.
+Read requests often need to scan over several key-value pairs, therefore it is possible to group the records into a block and compress it before writing it to disk. Each entry of the sparse index then points to the start of a compressed block. This has the advantage of saving disk space and reducing the IO bandwidth.
 
 SSTables store their keys in blocks, and have an internal index, so even though a single SSTable may be very large (gigabytes in size), only the index and the relevant block needs to be loaded into memory.
 
