@@ -5,19 +5,27 @@
   - [Map reduce and distributed filesystems](#map-reduce-and-distributed-filesystems)
     - [Where to use Map reduce](#where-to-use-map-reduce)
     - [Advantages of Map reduce](#advantages-of-map-reduce)
+    - [materialisation disadvantages](#materialisation-disadvantages)
     - [HDFS](#hdfs)
-    - [Workflow](#workflow)
+      - [(Architecture classification)](#architecture-classification)
+      - [(Replication advantage)](#replication-advantage)
     - [Mapper and Reducer](#mapper-and-reducer)
-    - [How to configure Mapper and Reducer](#how-to-configure-mapper-and-reducer)
-    - [Computation near the data](#computation-near-the-data)
-    - [How Sorting problem is handled](#how-sorting-problem-is-handled)
-    - [What is Shuffling](#what-is-shuffling)
+      - [Workflow](#workflow)
+      - [Mapper](#mapper)
+      - [Reducer](#reducer)
+      - [Configure Mapper and Reducer](#configure-mapper-and-reducer)
+      - [Computation near the data](#computation-near-the-data)
+      - [How Large Sorting problem is solved](#how-large-sorting-problem-is-solved)
+      - [Combining several files together Reducer](#combining-several-files-together-reducer)
+      - [What is Shuffling](#what-is-shuffling)
     - [Workflow chaining](#workflow-chaining)
     - [DB and Map Reduce](#db-and-map-reduce)
-    - [Hot key problem handling](#hot-key-problem-handling)
+      - [Read data from databases](#read-data-from-databases)
+      - [Write batch output to databases](#write-batch-output-to-databases)
+      - [Hot key problem handling](#hot-key-problem-handling)
+      - [Resolution to Hot key](#resolution-to-hot-key)
     - [Difference btw massively parallel processing (MPP) databases](#difference-btw-massively-parallel-processing-mpp-databases)
   - [Beyond MapReduce](#beyond-mapreduce)
-    - [materialisation disadvantages](#materialisation-disadvantages)
     - [Map reduce Alternatives](#map-reduce-alternatives)
   - [Graphs and iterative processing](#graphs-and-iterative-processing)
     - [Why use Graph](#why-use-graph)
@@ -29,7 +37,7 @@
 
 - Service (online): waits for a request and sends back response as quicky
 - Batch processing system (offline): takes a large amount of input data, runs a job to process it, and produces some output. *Hour to a day*
-- Stream processing (near-real-time): Consumes input and produces outputs. A stream job operates on events shortly after they happen. *Seconds to Minutes*
+- Stream processing (near-real-time): A stream job operates on events shortly after they happen. *Seconds to Minutes*
 
 ## Batch processing with Unix tools
 
@@ -44,59 +52,58 @@
 
 ### Where to use Map reduce
 
-- Google's uses to build indexes for its search engine.
-- Hadoop MapReduce remains a good way of building indexes for Lucene/Solr. If you need to perform a full-text search, a batch process is very effective way of building indexes: the mappers partition the set of documents as needed, each reducer builds the index for its partition, and the index files are written to the distributed filesystem. It pararellises very well.
-- Machine learning systems such as clasifiers and recommendation systems are a common use for batch processing.
+- Build indexes for Lucene full text search
+- Machine learning systems such as classifiers and recommendation systems.
 ### Advantages of Map reduce
 
-- Immutable inputs, avoids side effects.
-- Design principles that worked well for Unix also seem to be working well for Hadoop.
+- Immutable inputs.
+
+### materialisation disadvantages
+- The process of writing out the intermediate state to files is called materialisation.
+MapReduce's approach of fully materialising state has some downsides compared to Unix pipes:
+  - A MapReduce job can only start when all tasks in the preceding jobs have completed.
+  - Mappers are often redundant: they just read back the same file that was just written by a reducer.
+  - Files are replicated across several nodes, which is often overkill for such temporary data.
 
 ### HDFS
-
+#### (Architecture classification)
 - MapReduce jobs read and write files on a distributed filesystem. In Hadoop, that filesystem is called HDFS (Hadoop Distributed File System).
-- HDFS is based on the **shared-nothing principe**. 
+- **shared-nothing principe**. 
 - HDFS consists of a daemon process running on each machine, exposing a network service that allows other nodes to access files stored on that machine. A central server called the NameNode keeps track of which file blocks are stored on which machine.
-
-**Replication**
+#### (Replication advantage)
 - File blocks are replicated on multiple machines. 
-- Replication may mean simply several copies of the same data on multiple machines, or an erasure coding scheme such as Reed-Solomon codes, which allow lost data to be recovered.
+- erasure coding scheme such as Reed-Solomon codes, to recover lost data.
 
-### Workflow
+### Mapper and Reducer
+#### Workflow
 
 1. Read a set of input files, and break it up into records.
 2. Call the mapper function to extract a key and value from each input record.
 3. Sort all of the key-value pairs by key.
 4. Call the reducer function to iterate over the sorted key-value pairs.
 
-### Mapper and Reducer
+#### Mapper
+Called once for every input record, and its job is to extract the key and value from the input record.
 
-**Mapper**: Called once for every input record, and its job is to extract the key and value from the input record.
-**Reducer**: Takes the key-value pairs produced by the mappers, collects all the values belonging to the same key, and calls the reducer with an interator over that collection of vaues.
+#### Reducer
+Takes the key-value pairs produced by the mappers, collects all the values belonging to the same key, and calls the reducer with an interator over that collection of values.
 
 ![picture 1](../images/500952059960442fbe3e146d00d3dffeb208eb37f2b6e99dbbe1f4a48f3f8ef8.png)  
 
-### How to configure Mapper and Reducer
-
+#### Configure Mapper and Reducer
 - number of map tasks is determined by the number of input file blocks
 - the number of reduce tasks is configured by the job author. 
-- To ensure that all key-value pairs with the same key end up in the same reducer, the framework uses a hash of the key.
-### Computation near the data
-
+#### Computation near the data
 - The MapReduce scheduler tries to run each mapper on one of the machines that stores a replica of the input file, putting the computation near the data.
 
-### How Sorting problem is handled
-
-Sorting is performed in stages. The dataset is likely too large to be sorted with a conventional sorting algorithm on a single machine.
-
-### What is Shuffling
-
-- Whenever a mapper finishes reading its input file and writing its sorted output files, the MapReduce scheduler notifies the reducers that they can start fetching the output files from that mapper.
-- The reducers connect to each of the mappers and download the files of sorted key-value pairs for their partition. Partitioning by reducer, sorting and copying data partitions from mappers to reducers is called shuffle.
-
-**Combining several files together Reducer**
-
+#### How Large Sorting problem is solved
+Sorting is performed in stages. 
+#### Combining several files together Reducer
 The reduce task takes the files from the mappers and merges them together, preserving the sort order.
+#### What is Shuffling
+Partitioning by reducer, sorting and copying data partitions from mappers to reducers is called shuffle.
+- Whenever a mapper finishes reading its input file and writing its sorted output files, the MapReduce scheduler notifies the reducers that they can start fetching the output files from that mapper.
+- The reducers connect to each of the mappers and download the files of sorted key-value pairs for their partition. 
 
 ### Workflow chaining
 
@@ -105,29 +112,23 @@ The reduce task takes the files from the mappers and merges them together, prese
 
 ### DB and Map Reduce
 
+#### Read data from databases
 - If the query involves joins, it may require multiple index lookpus. MapReduce has no concept of indexes.
-When a MapReduce job is given a set of files as input, it reads the entire content of all of those files, like a **full** **table** **scan**.
 - Requests over the network are too slow and nondeterministic. Other databases could be prohibitive.
 - A better approach is to take a copy of the data and put it in the same distributed filesystem.
 
-**Write batch output to databases**
+#### Write batch output to databases
 
-- Writing from the batch job directly to the database server is a bad idea:
+- Writing from the batch job directly to the database server is a bad idea
 - Making a network request for every single record is magnitude slower than the normal throughput of a batch task.
-- A much better solution is to build a brand-new database inside the batch job an write it as files to the job's output directory, so it can be loaded in bulk into servers that handle read-only queries
-- Various key-value stores support building database files in MapReduce including Voldemort, Terrapin, ElephanDB and HBase bulk loading.
-
-### Hot key problem handling
-
+- A much better solution is to write it as files, so it can be loaded in bulk into servers. Example: HBase bulk loading.
+#### Hot key problem handling
 - In an example of a social network, small number of celebrities may have many millions of followers.
 - A single reducer can lead to significant skew that is, one reducer that must process significantly more records than the others.
 
-**Resolution to Hot key**
-
+#### Resolution to Hot key
 - The **skewed join method in Pig first** runs a sampling job to determine which keys are hot and then records related to the hot key need to be replicated to all reducers handling that key.
 - Handling the hot key over several reducers is called **shared join method**.
-- **Hive's skewed join** optimisation requires hot keys to be specified explicitly and it uses map-side join. If you can make certain assumptions about your input data, it is possible to make joins faster.
-
 ### Difference btw massively parallel processing (MPP) databases
 
 - MPP databases focus on parallel execution of analytic SQL queries on a cluster of machines, while the combination of MapReduce like a general-purpose operating system that can run arbitraty programs.
@@ -135,22 +136,14 @@ When a MapReduce job is given a set of files as input, it reads the entire conte
 - If a node crashes while a query is executing, most MPP databases abort the entire query. MPP databases also prefer to keep as much data as possible in memory.
 MapReduce can tolerate the failure of a map or reduce task without it affecting the job. It is also very eager to write data to disk, partly for fault tolerance, and partly because the dataset might not fit in memory anyway.
 
+
 ## Beyond MapReduce
-
-### materialisation disadvantages
-
-- The process of writing out the intermediate state to files is called materialisation.
-MapReduce's approach of fully materialising state has some downsides compared to Unix pipes:
-  - A MapReduce job can only start when all tasks in the preceding jobs have completed.
-  - Mappers are often redundant: they just read back the same file that was just written by a reducer.
-  - Files are replicated across several nodes, which is often overkill for such temporary data.
-
 ### Map reduce Alternatives
 
-- Spark, Tez and Flink. These new ones can handle an entire workflow as one job, rather than breaking it up into independent subjobs.
+- Spark, Tez and Flink. These new ones can handle an entire workflow as one job, rather than breaking it up into independent sub jobs.
 - They are assembled in flexible ways, in functions called operators.
 - if a machine fails and the intermediate state on that machine is lost, it is recomputed from other data that is still available.
-- The framework must keep track of how a given piece of data was computed. Spark uses the resilient distributed dataset (RDD) to track ancestry data.
+- Spark uses the resilient distributed dataset (RDD) to track ancestry data.
   
 ## Graphs and iterative processing
 
@@ -160,12 +153,10 @@ MapReduce's approach of fully materialising state has some downsides compared to
 
 - "repeating until done" cannot be expressed in plain MapReduce as it runs in a single pass over the data and some extra trickery is necessary.
 
-- An optimisation for batch processing graphs, the bulk synchronous parallel (BSP) has become popular.
-
 ### Graph communication
 
 - One vertex can "send a message" to another vertex, and typically those messages are sent along the edges in a graph.
-- The fact that vertices can only communicate by message passing helps improve the performance of Pregel jobs, since messages can be batched.
+- The fact that vertices can only communicate by message passing helps improve the performance, since messages can be batched.
 
 ### Fault tolerance
 
