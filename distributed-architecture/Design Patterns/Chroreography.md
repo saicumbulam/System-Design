@@ -1,7 +1,4 @@
-# What
-each component of the system participate in the decision-making process about the workflow of a business transaction, instead of relying on a central point of control.
 
-# Why
 A common pattern for communication is to use a centralized service that acts as the orchestrator for microservices. it also manages the workflow of the entire business transaction.
 - tight coupling between the orchestrator and other services that participate in processing of the business transaction. 
 - To execute tasks in a sequence, the orchestrator needs to have some domain knowledge about the responsibilities of those services. 
@@ -21,7 +18,3 @@ A common pattern for communication is to use a centralized service that acts as 
 # When to use
 -  if you expect to update, remove, or add new services frequently. The entire app can be modified with lesser effort
 -  if you experience performance bottlenecks in the central orchestrator.
-  
-# Example
-![picture 34](../../images/66359f085558d85798e369d3f2d5a3f886050d7aa885dec105698ef00ecf166f.png)  
-A single client business transaction requires three distinct business operations: creating or updating a package, assigning a drone to deliver the package, and checking the delivery status.

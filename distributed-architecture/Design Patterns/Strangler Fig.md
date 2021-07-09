@@ -6,12 +6,4 @@ Create a façade that intercepts requests going to the backend legacy system. Th
 ![picture 9](../../images/d1df13377a25e2d07c575fb01f390b8ac7ae6ea160f1b218aa98bd1134ec3c3b.png)  
 
 
-# When to use
-Use this pattern when gradually migrating a back-end application to a new architecture.
-
-This pattern may not be suitable:
-
-    When requests to the back-end system cannot be intercepted.
-    For smaller systems where the complexity of wholesale replacement is low.
-
   

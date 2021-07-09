@@ -10,8 +10,3 @@ With this pattern, the client application only needs to know about and communica
 ![picture 47](../../images/b606b054beaa53ed481613670f40a11f84c31e47d5814f415bfe41f8ccc0e4eb.png)  
 
 This pattern can also help with deployment, by allowing you to manage how updates are rolled out to users. When a new version of your service is deployed, it can be deployed in parallel with the existing version. Routing lets you control what version of the service is presented to the clients, giving you the flexibility to use various release strategies, whether incremental, parallel, or complete rollouts of updates. 
-
-# When to use
-
-  
-# Example
