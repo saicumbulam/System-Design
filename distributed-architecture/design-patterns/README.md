@@ -1,2 +1,2 @@
-# Design Patterns
+# Component System Design Patterns
 

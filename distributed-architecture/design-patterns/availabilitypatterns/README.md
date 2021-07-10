@@ -1,2 +1,2 @@
-# AvailabilityPatterns
+# High Availability Patterns
 

@@ -3,7 +3,7 @@
 * quite useful when you have a large amount of mostly independent processing that is needed to handle a particular request.
 * Scatter/gather can be seen as sharding the computation 
 
-![picture 7](../../.gitbook/assets/6e29da98deaf53eb9be32df6440331973e8d7152b230406704c0feb3333f9e61.png)
+![picture 7](../../../../.gitbook/assets/6e29da98deaf53eb9be32df6440331973e8d7152b230406704c0feb3333f9e61.png)
 
 ## Scatter/Gather with Root Distribution
 
@@ -17,7 +17,7 @@ To see an example of scatter/gather in action,
 * Task of searching across a large database of documents for all documents that contain the words “cat” and “dog.” 
 * To make request processing faster, you can build an index. The index is effectively a hashtable, where the keys are individual words\(e.g., “cat”\) and the values are a list of documents containing that word.
 
-![picture 8](../../.gitbook/assets/2eac9560ac59257a28d646268811857e2b495cf44a7b9e20ad441c934d9f4b92.png)
+![picture 8](../../../../.gitbook/assets/2eac9560ac59257a28d646268811857e2b495cf44a7b9e20ad441c934d9f4b92.png)
 
 ### straggler” problem.
 
@@ -30,5 +30,5 @@ To see an example of scatter/gather in action,
 * Increased parallelism doesn’t always speed things up because of the straggler problem.
 * The performance of the 99th percentile is more important than in other systems because each user request actually becomes numerous requests to the service.
 
-**sharded, replicated scatter/gatther system** ![picture 9](../../.gitbook/assets/63cc9eae3e0ab0386898c4f49c960bf4d554b56bda47d20cdac7f6d94d898b75.png)
+**sharded, replicated scatter/gatther system** ![picture 9](../../../../.gitbook/assets/63cc9eae3e0ab0386898c4f49c960bf4d554b56bda47d20cdac7f6d94d898b75.png)
 

@@ -5,8 +5,10 @@ A common pattern for communication is to use a centralized service that acts as 
 * tight coupling between the orchestrator and other services that participate in processing of the business transaction. 
 * To execute tasks in a sequence, the orchestrator needs to have some domain knowledge about the responsibilities of those services. 
 * If you want to add or remove services, existing logic will break, and you'll need to rewire portions of the communication path. 
+* if you expect to update, remove, or add new services frequently. The entire app can be modified with lesser effort
+* if you experience performance bottlenecks in the central orchestrator.
 
-![picture 32](../../.gitbook/assets/8f5d096645ab3502a4796420bea3ce5878534174737eb8b50d6360fcea250778.png)
+![picture 32](../../../.gitbook/assets/8f5d096645ab3502a4796420bea3ce5878534174737eb8b50d6360fcea250778.png)
 
 ## How
 
@@ -15,10 +17,5 @@ A common pattern for communication is to use a centralized service that acts as 
 * In case of success, the service can push a message back to the same queue or a different message queue so that another service can continue the workflow if needed
 * this pattern helps reduce coupling between services
 
-![picture 33](../../.gitbook/assets/f00bd385ada944a37085e98d2d3e75255b1d1fd451467c2283d2cd855d4474a4.png)
-
-## When to use
-
-* if you expect to update, remove, or add new services frequently. The entire app can be modified with lesser effort
-* if you experience performance bottlenecks in the central orchestrator.
+![picture 33](../../../.gitbook/assets/f00bd385ada944a37085e98d2d3e75255b1d1fd451467c2283d2cd855d4474a4.png)
 

@@ -11,7 +11,7 @@ The primary reason for sharding the data is because the size of the state is too
   * Replicated, sharded caches
   * The sharding function
 
-![picture 6](../../.gitbook/assets/9f91b5858d20f6316381376986247ad6c9167a0d0f00e021695cc3efec74f779.png)
+![picture 6](../../../../.gitbook/assets/9f91b5858d20f6316381376986247ad6c9167a0d0f00e021695cc3efec74f779.png)
 
 ## why we need sharded cache
 

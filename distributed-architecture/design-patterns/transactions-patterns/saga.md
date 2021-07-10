@@ -18,6 +18,6 @@ Compensable transactions are transactions that can potentially be reversed by pr
 
 two common saga implementation approaches, choreography and orchestration
 
-![picture 4](../../.gitbook/assets/91ac6e23f91ff02e4088ee57e89a707411f3f23c39318b46dda4b43dd8a8b488.png)  
-![picture 5](../../.gitbook/assets/48ed546864af27e9ce25ef15e976354a50f41a7ef45c83267fea5570000361e1.png)
+![picture 4](../../../.gitbook/assets/91ac6e23f91ff02e4088ee57e89a707411f3f23c39318b46dda4b43dd8a8b488.png)  
+![picture 5](../../../.gitbook/assets/48ed546864af27e9ce25ef15e976354a50f41a7ef45c83267fea5570000361e1.png)
 

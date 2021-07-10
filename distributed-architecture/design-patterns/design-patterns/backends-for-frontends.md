@@ -8,7 +8,7 @@ Create separate backend services to be consumed by specific frontend application
 
 Create one backend per user interface. Fine-tune the behavior and performance of each backend to best match the needs of the frontend environment
 
-![picture 44](../../.gitbook/assets/21b3b6583adee97fd108e97d00f2f3bad5cb85482ab591f95f4961310364b4fc.png)
+![picture 44](../../../.gitbook/assets/21b3b6583adee97fd108e97d00f2f3bad5cb85482ab591f95f4961310364b4fc.png)
 
 ## When to use
 

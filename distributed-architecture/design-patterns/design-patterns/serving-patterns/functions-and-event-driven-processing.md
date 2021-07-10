@@ -7,7 +7,7 @@
 ## Benefits of FaaS
 
 * Functions are granular building block for designing distributed systems. 
-* Functions are stateless and thus any system you build on top of functionsis inherently more modular and decoupled
+* Functions are stateless and thus any system you build on top of functions is inherently more modular and decoupled
 
 ## Challenges of FaaS
 
@@ -31,7 +31,7 @@ This approach is great if you only have a few requests per minute or hour. In su
 
 ## Decorator pattern
 
-* FaaS is ideal for deploying simple functions that can take an input, transform it into an output, and then pass it on to a different service. ![picture 10](../../.gitbook/assets/6a429d456408deac57ce53c2398dc5dc7f85aca205d8137967a7cc1155fb4856.png)
+* FaaS is ideal for deploying simple functions that can take an input, transform it into an output, and then pass it on to a different service. ![picture 10](../../../../.gitbook/assets/6a429d456408deac57ce53c2398dc5dc7f85aca205d8137967a7cc1155fb4856.png)
 * FaaS decorator pattern to transform the request in between the user and the service implementation.
 * experiment with a variety of different decorators before finally adopting one and pulling it more completely into the implementation of the service.
 
