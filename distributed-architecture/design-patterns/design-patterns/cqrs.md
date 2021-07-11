@@ -12,7 +12,7 @@ CQRS stands for Command and Query Responsibility Segregation, a pattern that sep
 
 If separate read and write databases are used, they must be kept in sync. Typically this is accomplished by having the write model publish an event whenever it updates the database
 
-![](../../../.gitbook/assets/image%20%283%29.png)
+![](../../../.gitbook/assets/image%20%285%29.png)
 
 
 
