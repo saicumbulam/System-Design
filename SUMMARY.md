@@ -91,7 +91,7 @@
   * [HDFS](system-design-popular/hdfs.md)
   * [Chubby](system-design-popular/chubby.md)
   * [GoogleFileSystem](system-design-popular/googlefilesystem.md)
-  * [Dynamidb](system-design-popular/dynamidb.md)
+  * [Dynamo-db](system-design-popular/dynamidb.md)
 * [Web scalability](web-scalability/README.md)
   * [Building Front end applications](web-scalability/building-front-end-applications.md)
   * [Concepts](web-scalability/concepts.md)

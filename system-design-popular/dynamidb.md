@@ -1,4 +1,4 @@
-# Dynamidb
+# Dynamo-db
 
 * Dynamo is a highly available key-value store developed by Amazon for their internal use. 
 * Many Amazon services, such as shopping cart, bestseller lists, sales rank, product catalog, etc., need only primary-key access to data. 
