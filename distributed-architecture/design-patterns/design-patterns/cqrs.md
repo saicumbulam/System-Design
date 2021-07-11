@@ -4,7 +4,7 @@ CQRS stands for Command and Query Responsibility Segregation, a pattern that sep
 
 * In traditional architectures, the same data model is used to query and update a database. Read and write workloads are often asymmetrical, with very different performance and scale requirements.
 
-![](../../../.gitbook/assets/image%20%282%29.png)
+![](../../../.gitbook/assets/image%20%283%29.png)
 
 * Scenarios where performance of data reads must be fine-tuned separately from performance of data writes, especially when the number of reads is much greater than the number of writes.
 
@@ -12,7 +12,7 @@ CQRS stands for Command and Query Responsibility Segregation, a pattern that sep
 
 If separate read and write databases are used, they must be kept in sync. Typically this is accomplished by having the write model publish an event whenever it updates the database
 
-![](../../../.gitbook/assets/image%20%285%29.png)
+![](../../../.gitbook/assets/image%20%288%29.png)
 
 
 
