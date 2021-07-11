@@ -1,2 +1,0 @@
-# Compensating Transaction
-
