@@ -43,68 +43,55 @@ Eventual consistency is a very weak guarantee as it doesn't say when the replica
 
 ## Linearizability
 
-```text
-Note: Linearizability is said to also be known as atomic consistency, strong consistency, immediate consistency or external consistency.
-```
+Linearizability is said to also be known as atomic consistency, strong consistency
 
-1. The idea behind Linearizability is that the database should always appear as if there is only one copy of the data. 
-
-   making the same request on multiple nodes should always give the same response as long as no update is made between those requests.
-
-2. Recency guarantee, meaning that the value read must be the most recent or up-to-date value, and is not from a stale cache. 
-
-   client successfully completes a write, all other clients must see the value just written.
+1. The idea behind Linearizability is that the database should appear as if there is only one copy of the data. making the same request on multiple nodes should give the same response.
+2. **Recency guarantee**, meaning that the value read must be the most recent or up-to-date value, and is not from a stale cache.
 
 ### Linearizability vs Serializability
 
-**Linearizability:** This is a recency guarantee on reads and writes of a single object. This guarantee does not group multiple operations together into a transaction. meaning it cannot protect against a problem like write skew, where a transaction makes a write based on a value it read earlier that has now been updated by another concurrently running transaction.
+**Linearizability:** This is a recency guarantee on reads and writes of a single object. 
 
-**Serializability:** This is an isolation property of transactions that guarantees that transactions behave the same as if they had executed in some serial order. There is no guarantee on what serial order these transactions appear to run in, all that matters is that it is a serial order.
+**Serializability:** This is an isolation property of transactions that guarantees that transactions behave the same as if they had executed in some serial order. 
 
 1. When a database provides both serializability and linearizability, the guarantee is known as strict serializability.
-2. Two Phase-Locking and Actual Serial Execution are implementations of serializability that are also linearizable. 
-
-   However, serializable snapshot isolation is not linearizable, since a transaction will be reading values from a consistent snapshot.
 
 ### Relying on Linearizability
 
-linearizability is as a guarantee, it is not critical for all applications. there are examples of where linearizability is important for making a system work correctly:
+There are examples of where linearizability is important:
 
 **Locking and leader election**
 
 1. A system with a single-reader replication model must ensure that there's only ever one leader at a time. 
-2. One of the ways to implement leader election is by using a lock. All the eligible nodes start up and try to acquire a lock and the successful one becomes the leader. This lock must be linearizable. Once a node owns the lock, all the other nodes must see that it is that node that owns the lock.
-
-   Apache ZooKeeper and etcd are often used to implement distributed locks and leader election.
+2. One of the ways to implement leader election is by using a lock. .
 
 **Constraints and uniqueness guarantees**
 
-1. When multiple users are concurrently trying to register a value that must be unique, each user can be thought of as acquiring a lock on that value. E.g. a username or email address system.
-2. We see similar issues in examples like ensuring that a bank account never goes negative, not selling more items than is available in stock, not concurrently booking the same seat on a flight, or in a theater for two people. For these constraints to be implemented properly, there needs to be a single up to date value that all nodes agree on.
+1. When multiple users are concurrently trying to register a value that must be unique, each user can be thought of as acquiring a lock on that value. E.g. a username or email address system, bank account, booking 
 
 ### Implementing Linearizable Systems
 
-the simplest way to implement it will be to actually have just one copy of the data. However, that won't be fault-tolerant if the node that has the single copy becomes unavailable.
+the simplest way to implement it will be to actually have just one copy of the data.
 
 other different replication methods:
 
-1. Single-leader replication \(potentially linearizable\): If we make every read from the leader or from synchronously updated followers, the system has the potential to be linearizable. However, there is no absolute guarantee as the system can still be non-linearizable either by design \(because it uses snapshot isolation\) or due to concurrency bugs. Issues like split-brain can mean that a single-leader system can violate linearizability.
+1. Single-leader replication \(potentially linearizable\): If we make every read from the leader or from synchronously updated followers, the system has the potential to be linearizable. We need to deal with concurrency bugs,  issues like split-brain.
 2. Consensus Algorithms \(linearizable\): They are similar to single-leader replication, but they contain additional measures to prevent stale replicas and split-brain. As a result, consensus protocols are used to implement linearizable storage safely. Zookeeper and Etcd work this way.
 
 ### The Cost of Linearizability
 
-While linearizability is often desirable, there can be performance costs.
+linearizability can be performance costs.
 
 Consider a scenario where we have two data centers and there's a network interruption between those data centers:
 
-1. In a multi-leader database setup, the operations can continue in each data center normally since the writes can be queued up until the network link is restored and replication can happen asynchronously.
-2. In a single-leader setup, the leader must be in one of the data centers. Therefore, clients connected to a follower data center will not be able to contact the leader and cannot make any writes, nor any linearizable reads \(their reads will be stale if the leader keeps getting updated\).
+* In a multi-leader database setup, the operations can continue in each data center normally since the writes can be queued up until the network link is restored and replication can happen asynchronously.
+* In a single-leader setup, the leader must be in one of the data centers. Therefore, clients connected to a follower data center will not be able to contact the leader and cannot make any writes, nor any linearizable reads \(their reads will be stale if the leader keeps getting updated\).
 
 ### Ordering and Causality
 
-**Why Ordering is important** For single-leader replication. The main purpose of the leader is to determine the order of writes in the replication log i.e. the order in which followers apply writes. Without a single leader, we can have conflicts due to concurrent operations.
+**Why Ordering is important** For single-leader replication. The main purpose of the leader is to determine the order of writes in the replication log. Without a single leader, we can have conflicts due to concurrent operations.
 
-With causality, an ordering of events is guaranteed such that cause always comes before effect. If one event happened before another, causality will ensure that that relationship is captured i.e. the _happens-before relationship_ . Some examples of this are:
+With causality, an ordering of events is guaranteed such that cause always comes before effect.  Some examples of this are:
 
 * When a row is first created and then updated, a replica should not see the instruction to update the row before the creation instruction.
 
@@ -112,27 +99,15 @@ A system that obeys the ordering imposed by causality is said to be causally con
 
 **Capturing causal dependencies**
 
-Causal consistency captures the notion that causally-related operations should appear in the same order on all processes—though processes may disagree about the order of causally independent operations - Jepsen
-
-For a causally consistent database, when a replica processes an operation, it needs to ensure that all the operations that happened before it have already been processed; if a preceding operation is missing, the system must hold off on processing the later one until the preceding operation has been processed.
-
 To determine causal ordering, the database needs to keep track of which version of the data was read by an application.
 
 #### Sequence Number Ordering
 
 1. A good way of keeping track of causal dependencies in a database is by using sequence numbers or timestamps to order the events. This timestamp can be a logical clock which is an algorithm that generates monotonically increasing numbers for each operation. These sequence numbers provide a total order meaning that if we have two sequence numbers, we can always determine which is greater.
 2. With single-leader databases, the replication log defines a total order of write operations that is consistent with causality. Here, the leader can assign a monotonically increasing sequence number to each operation in the log. A follower that applies the writes in the order they appear in the replication log will always be in a causally consistent state.
+3. For Multi leader use Lamport Time stamps
 
-#### Noncausal sequence number generators
-
-In a multi-leader or leaderless database, generating sequence numbers for operations can be done in different ways such as:
-
-1. Ensuring that each node generates an independent set of sequence numbers e.g. if we have two nodes, one node can generate even numbers while the other can generate odd numbers.
-2. A timestamp from a time-of-day can be attached to each operation. We can preallocate blocks of sequence numbers. 
-
-However, while these options perform better than pushing all operations through a single leader which increments the counter, the problem with them is that they these sequence number are not consistent with causality. They do not capture ordering across different nodes.
-
-### Lamport Timestamps
+**Lamport Timestamps**
 
 1. The idea here is that each node has a unique identifier, and also keeps a counter of the number of operations it has processed. The Lamport timestamp is then a pair of \(counter, nodeID\). Multiple nodes can have the same counter value, but including the node ID in the timestamp makes it unique.
 2. Lamport timestamps provide a total ordering: if there are two timestamps, the one with the greater counter value is the greater timestamp; if the counter values are the same, then we pick the one with the greater node ID as the greater timestamp.
@@ -223,9 +198,7 @@ This way, we'll avoid race conditions on the integer and each message will have 
 
 ## Distributed Transactions and Consensus
 
-Simply put, consensus means getting several nodes to agree on something.
-
-Some situations where it is important for the nodes to agree include:
+Simply put, consensus means getting several nodes to agree on something. Some situations where it is important includes:
 
 **Leader election:** In a single-leader setup, all the nodes need to agree on which node is the leader.
 
@@ -237,9 +210,9 @@ Two-phase commit is the most commonly used algorithm for implementing atomic com
 
 #### From single-node to distributed atomic commit
 
-Atomicity for single database node transactions is usually implemented by the storage engine. When a request is made to commit a transaction, the writes in the transaction are made durable \(typically using a write-ahead log\) and then a commit record is appended on disk. If the database crashes during this process, upon restarting, it decides whether to commit or rollback the transaction based on whether or not the commit record was written to the disk before the crash.
+**Atomicity for single database node** transactions is usually implemented by the storage engine. When a request is made to commit a transaction, the writes in the transaction are made durable \(typically using a write-ahead log\) and then a commit record is appended on disk. If the database crashes during this process, upon restarting, it decides whether to commit or rollback the transaction based on whether or not the commit record was written to the disk before the crash.
 
-However, if multiple nodes are involved, it's not sufficient to simply send a commit request to all the nodes and then commit the transaction on each one. Some of the scenarios where multiple nodes could be involved are: a multi-object transaction in a partitioned database, or writing to a term-partitioned index.
+However, **if multiple nodes are involved**, it's not sufficient to simply send a commit request to all the nodes and then commit the transaction on each one. Some of the scenarios where multiple nodes could be involved are: a multi-object transaction in a partitioned database, or writing to a term-partitioned index.
 
 It's possible that the commit succeeds on some nodes and fails on other nodes, which is a violation of the atomicity guarantee. Possible scenarios are:
 
@@ -251,15 +224,19 @@ it's important that a node commits a transaction only when it is certain that al
 
 ## Introduction to Two-phase commit
 
-Two-phase commit \(or 2PC\) is an algorithm used for achieving atomic transaction commit when multiple nodes are involved. 'Atomic' in the sense that either all nodes commit or all abort.
+Two-phase commit \(or 2PC\) is an algorithm used for achieving atomic transaction commit when **multiple nodes are involved**. 'Atomic' in the sense that either all nodes commit or all abort.
 
-The key thing here is that the commit process is split into two phases: the prepare phase and the actual commit phase.
+The key thing here is that the commit process is split into two phases: t**he prepare phase and the actual commit phase.**
 
-It achieves atomicity across multiple nodes by introducing a new component known as the coordinator. The coordinator can run in the same process as the service requesting the transaction or in an entirely different process.
+It achieves atomicity across multiple nodes by introducing a new component known as the **coordinator.** The coordinator can run in the same process as the service requesting the transaction or in an entirely different process.
 
-**When the application is ready to commit a transaction, the two phases are as follows:** 1. The coordinator sends a prepare request to all the nodes participating in the transaction, for which the nodes have to respond with essentially a 'YES' or 'NO' message. 2. If all the participants reply 'YES', then the coordinator will send a commit request in the second phase for them to actually perform the commit. However, if any of the nodes reply 'NO', the coordinator sends an abort request to all the participants. 3. When a participant responds with "YES", it means that it must be able to commit under all circumstances. A power failure, crash, or memory issue cannot be an excuse for refusing to commit later. It must definitely be able to commit the transaction without error if needed.
+**When the application is ready to commit a transaction, the two phases are as follows:** 
 
-When the coordinator decides and that decision is written to disk, the decision is irrevocable. It doesn't matter if the commit or abort request fails at first, it must be retried forever until it succeeds.
+1. The coordinator sends a prepare request to all the nodes participating in the transaction, for which the nodes have to respond with essentially a 'YES' or 'NO' message.
+
+2. If all the participants reply 'YES', then the coordinator will send a commit request in the second phase for them to actually perform the commit. However, if any of the nodes reply 'NO', the coordinator sends an abort request to all the participants. 
+
+3. When a participant responds with "YES", it means that it must be able to commit under all circumstances. A power failure, crash, or memory issue cannot be an excuse for refusing to commit later. It must definitely be able to commit the transaction without error if needed.
 
 ### Coordinator Failure
 
@@ -267,35 +244,27 @@ When the coordinator decides and that decision is written to disk, the decision 
 2. If any commit or abort request fails, the coordinator will retry them indefinitely.
 3. If the coordinator fails before it can send a prepare request, a participant can safely abort the transaction. 
 
-However, once a participant has received a prepare request and voted "YES", it can no longer abort by itself. It has to wait to hear from the coordinator about whether or not it should commit the transaction.
+The downside  is that if the coordinator crashes or the network fails after a participant has responded "YES", the participant can do nothing but wait. In this state, it is said to be in doubt or uncertain.
 
-The downside of this is that if the coordinator crashes or the network fails after a participant has responded "YES", the participant can do nothing but wait. In this state, it is said to be in doubt or uncertain.
-
-The reason why a participant has to wait for the coordinator in the event of a failure is that it does not know whether the failure extends to all participants or just itself.
-
-It's possible that the network failed after the commit request was sent to one of the participants. If the in doubt participants then decide to abort after a timeout due to not receiving from the coordinator, it will leave the database in an inconsistent state.
-
-This possibility of failure is why the coordinator must write its decision to a transaction log on disk before sending the request to the participants. When it recovers from a failure, it can read its transaction log to determine the status of all in-doubt transactions. Transactions without a commit record in the coordinator's log are aborted. In essence, the commit point of 2PC is a regular single-node atomic commit on the coordinator.
+This possibility of failure is why the coordinator must write its decision to a transaction log on disk before sending the request to the participants. When it recovers from a failure, it can read its transaction log to determine the status of all in-doubt transactions. Transactions without a commit record in the coordinator's log are aborted. 
 
 ## Three-phase commit
 
-Two-phase commit is referred to as a blocking atomic commit protocol because of the fact that it can get stuck waiting for the coordinator to recover. An alternative to 2PC that has been proposed is an algorithm called three-phase commit \(3PC\). The idea here is that it assumes a network with bounded delays and nodes with bounded response times. This means that when a delay exceeds that bound, a participant can safely assume that the coordinator has crashed. However, most practical systems have unbounded network delays and process pauses
+Two-phase commit is referred to as a blocking atomic commit protocol because of the fact that it can get stuck waiting for the coordinator to recover. An alternative to 2PC that has been proposed is an algorithm called three-phase commit \(3PC\). 
+
+The idea here is that it assumes a network with bounded delays and nodes with bounded response times. When a delay exceeds that bound, a participant can safely assume that the coordinator has crashed. However, most practical systems have unbounded network delays and process pauses
 
 ## Distributed Transactions in Practice
 
-Distributed transactions, especially those implemented with two-phase commit, are contentious because of the performance implications and operational problems they cause. This has led to many cloud services choosing not to implement them.
+There are two types of distributed transactions:
 
-There are two types of distributed transaction which often get conflated:
+**Database-internal distributed transactions:** refers to transactions performed by a distributed database that spans multiple replicas or partitions.
 
-**Database-internal distributed transactions:** This refers to transactions performed by a distributed database that spans multiple replicas or partitions.
-
-**Heterogenous distributed transactions:** Here, the participants are two or more different technologies. For example, we could have two databases from different vendors, or even non-database systems such as message brokers.
+**Heterogenous distributed transactions:** the participants are two or more different technologies. For example, we could have two databases from different vendors, or even non-database systems such as message brokers.
 
 ### Exactly-once message processing
 
 With heterogeneous transactions, we can integrate diverse systems in powerful ways. For example, we can perform a transaction that spans across a message queue and a database. Say we want to acknowledge a message from a queue as processed if and only if the transaction for processing the message was successfully committed, we could perform this using distributed transactions.
-
-This can be implemented by atomically committing the message acknowledgment and the database writes in a single transaction. If the transaction fails and the message is not acknowledged, the message broker can safely redeliver the message later.
 
 An advantage of atomically committing a message together with the side effects of its processing is that it ensures that the message is effectively processed exactly once. If the transaction fails, the effects of processing the message can simply be rolled back.
 
