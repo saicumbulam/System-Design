@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.StringJoiner;
 
+//O(N^2+ 2^N + W) | O(2^N * N + W)
 public class WordBreakII {
     List<String> result = new ArrayList<>();
 
