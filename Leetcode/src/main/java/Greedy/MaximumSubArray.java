@@ -1,4 +1,4 @@
-package Dp.SingleDP;
+package Greedy;
 
 public class MaximumSubArray {
     // take this sum or the maxSum

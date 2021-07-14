@@ -1,4 +1,4 @@
-package Dp.SingleDP;
+package Greedy;
 
 public class MaximumProductSubarray {
     public int maxProduct(int[] nums) {

@@ -1,4 +1,4 @@
-package Dp.SingleDP;
+package Greedy;
 
 public class BestTimeBuySellStock {
     public int maxProfit(int[] prices) {
