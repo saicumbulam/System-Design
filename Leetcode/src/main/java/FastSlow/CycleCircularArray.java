@@ -6,29 +6,27 @@ Explanation: The array has a cycle among indices: 0 -> 1 -> 3 -> 0
 * */
 package FastSlow;
 
+//TODO: Study
 public class CycleCircularArray {
-    public static void main(String[] args) {
-        int[] arr = {1, 2, -1, 2, 2};
-        //int[] arr = {2, 1, -1, -2};
-        System.out.println(Calculate(arr));
-    }
+    public boolean circularArrayLoop(int[] nums) {
+        for(int i = 0; i < nums.length; i++)
+        {
+            int slow = i;
+            int fast = i;
+            int direction = nums[i] < 0 ? -1 : 1;
 
-    private static boolean Calculate(int[] arr)
-    {
-        for (int i = 0; i < arr.length; i++) {
-            int slow = i, fast = i;
-            boolean isForward = arr[i] >= 0;
-
-            do {
-                slow = NextIndex(slow, arr, isForward);
-                fast = NextIndex(fast, arr, isForward);
+            do
+            {
+                slow = finder(nums, slow, direction);
+                fast = finder(nums, fast, direction);
                 if (fast != -1)
                 {
-                    fast = NextIndex(fast, arr, isForward);
+                    fast = finder(nums, fast, direction);
                 }
-            } while (slow != -1 && fast != -1 && slow != fast);
+            }
+            while(slow != -1 && fast != -1 && slow != fast);
 
-            if (slow != -1 && fast == slow)
+            if (slow != -1 && slow == fast)
             {
                 return true;
             }
@@ -37,26 +35,21 @@ public class CycleCircularArray {
         return false;
     }
 
-    private static int NextIndex(int index, int[] arr, boolean direction)
+
+    private int finder(int[] nums, int index, int direction)
     {
-        boolean newDirection = arr[index] >= 0;
-        if (newDirection != direction)  // detect forward and backward movements
-        {
-            return -1;
-        }
+        int nextDirection = nums[index] < 0 ? -1: 1;
 
-        int nextIndex = index + arr[index];
-        nextIndex %= arr.length;
-        if (nextIndex < 0)
-        {
-            nextIndex += arr.length;
-        }
 
-        if (nextIndex == index) // detect forward and backward movements
-        {
-            return -1;
-        }
+        if (direction != nextDirection) return -1;
+
+        int nextIndex = nums[index] + index;
+        nextIndex %= nums.length;
+        if (nextIndex < 0) nextIndex += nums.length;
+
+        if (nextIndex == index) return -1;
 
         return nextIndex;
+
     }
 }
