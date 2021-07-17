@@ -1,6 +1,6 @@
 # Database use cases
 
-## Redis Use Cases
+## Redis
 
 * Redis data resides in the server’s main memory. 
 * blazing fast performance with average read or write operations taking less than a millisecond and support for millions of operations per second
@@ -36,18 +36,20 @@ Redis offers purpose-built in-memory data structures and operators to manage rea
 
 ### Real-time analytics
 
-Redis can be used with streaming solutions such as Apache Kafka and Amazon Kinesis as an in-memory data store to ingest, process, and analyze real-time data with **sub-millisecond latency**. Redis is an ideal choice for real-time analytics use cases such as **social media analytics, ad targeting, personalization,** and IoT.
+- Redis can be used with streaming solutions such as Apache Kafka and Amazon Kinesis as an in-memory data store to ingest, process, and analyze real-time data with **sub-millisecond latency**. 
+
+- Redis is an ideal choice for real-time analytics use cases such as **social media analytics, ad targeting, personalization,** and IoT.
 
 ## Cassandra
 
-* eventually consistent. 
+* Eventually consistent. 
 * Cassandra is optimized for high throughput and faster writes, and can be used for **collecting big data for performing real-time analysis**.
 
 Here are some of its top use cases:
 
-* Storing key-value data with high availability - Reddit and Digg use Cassandra as a persistent store for their data. Cassandra’s ability to scale linearly without any downtime makes it very suitable for their growth needs.
-* Time series data model - Cassandra well suited for storing and analyzing sequentially captured metrics \(i.e., measurements from sensors, application logs, etc.\). Such usages take advantage of the fact that columns in a row are determined by the application, not a predefined schema. Each row in a table can contain a different number of columns, and there is no requirement for the column names to match.
-* Write-heavy applications - Cassandra is especially suited for write-intensive applications such as time-series streaming services, sensor logs, and Internet of Things \(IoT\) applications.
+* **Storing key-value data with high availability** - Reddit and Digg use Cassandra as a persistent store for their data. Cassandra’s ability to scale linearly without any downtime makes it very suitable for their growth needs.
+* **Time series data model** - Cassandra well suited for storing and analyzing sequentially captured metrics \(i.e., measurements from sensors, application logs, etc.\). Such usages take advantage of the fact that columns in a row are determined by the application, not a predefined schema. Each row in a table can contain a different number of columns, and there is no requirement for the column names to match.
+* **Write-heavy applications** - Cassandra is especially suited for write-intensive applications such as time-series streaming services, sensor logs, and Internet of Things \(IoT\) applications.
 
 ## DynamoDB
 
@@ -57,16 +59,8 @@ Here are some of its top use cases:
 
 ## Redis vs Dynamo DB
 
-Two deployments
-
-* Standalone
-* Multi-AZ cluster
-
 Redis:
 
-* With standalone installation it is possible to turn on persistence for a Redis instance, so service can recover data after reboot. 
-* But in some cases, like underlying hardware degradation, AWS can migrate Redis to another instance and lose persistent log.
-* In Multi-AZ cluster installation it is not possible to enable persistence, only replication is occur. In case of failure it takes a time to promote replica to master state. 
 * Redis doesn't provide high durability of the data, while gives you very good performance.
 
 Dynamodb

@@ -3,7 +3,7 @@
 ## Scalability
 
 * Ability to adjust the capacity of the system to cost-efficiently fulfill the demands. 
-* The ability to scale is measured in different dimension:
+* different dimension:
   * Handling more data
   * Handling higher concurrency levels. Higher concurrency means more 
 
@@ -13,36 +13,47 @@
 
   * Handling higher interaction rates: how often your clients exchange information with your servers
 
-**functional Partitioning**
+### Functional Partitioning
 
-* The core concept behind isolation of services is that you should try to split your monolithic web application into a set of distinct functional parts and host them independently. The process of dividing a system based on functionality to scale it independently is called functional partitioning.
+* The core concept behind isolation of services is that you should try to split your monolithic web application into a set of distinct functional parts and host them independently. 
 
-**CDN**
+### CDN
 
-* A content delivery network is a hosted service that takes care of global distribution of static files like images, JavaScript, CSS, and videos. It works as an HTTP proxy. 
-* Clients that need to download images, JavaScript, CSS, or videos connect to one of the servers owned by the CDN provider instead of your servers
+A content delivery network is a hosted service that takes care of global distribution of static files. 
+
+* It works as an HTTP proxy. 
+* Clients connect to one of the servers owned by the CDN provider instead of your servers
 * Once the file is cached by the CDN, subsequent clients are served without contacting your servers at all.
 * you can significantly reduce the amount of bandwidth your servers 
 
-**What is an HTTP proxy server?**
+### HTTP proxy server
 
-* The HTTP proxy can essentially be described as a high-performance content filter that traffic flows through to reach you. 
+* high-performance content filter that traffic flows through to reach you. 
 * it acts as an intermediary between the client browser and the destination web server. 
 * Any traffic that is processed through the server will appear as though it came from the proxy’s dedicated IP address instead of the one that your device is associated with.
 
 **Cloud service providers are able to charge lower rates** for higher-traffic clients because their overheads of maintenance, integration, and customer care are lower per capacity unit
 
-**GeoDNS** DNS service that allows domain names to be resolved to IP addresses based on the location of the customer. Regular DNS servers receive a domain name, like yahoo.com, and resolve it to an IP address, like 206.190.36.45. GeoDNS behaves the same way from the client’s perspective. However, it may serve different IP addresses based on the location of the client.
+### Geo DNS 
 
-**edge-cache servers** host multiple edge-cache servers located around the world to reduce the network latency even further. The use of edge-cache servers depends on the nature of your application. Edge-cache servers are most efficient when they act as simple reverse proxy servers caching entire pages
+DNS service that allows domain names to be resolved to IP addresses based on the location of the customer. Regular DNS servers receive a domain name, like yahoo.com, and resolve it to an IP address, like 206.190.36.45. Geo DNS behaves the same way from the client’s perspective. However, it may serve different IP addresses based on the location of the client.
 
-**Edge cache** is a HTTP cache server located near the customer, allowing the customer to partially cache the HTTP traffic. Requests from the customer’s browser go to the edge-cache server. The server can then decide to serve the page from the cache, or it can decide to assemble the missing pieces of the page by sending background requests to your web servers.
+### Edge-cache servers 
+
+- Host multiple edge-cache servers located around the world to reduce the network latency even further. 
+
+- Edge-cache servers are most efficient when they act as simple reverse proxy servers caching entire pages
+
+### Edge cache
+
+- A HTTP cache server located near the customer, allowing the customer to partially cache the HTTP traffic. 
+- Requests from the customer’s browser go to the edge-cache server. The server can then decide to serve the page from the cache, or it can decide to assemble the missing pieces of the page by sending background requests to your web servers.
 
 ## Overview of Datacenter
 
 ![picture 1](../.gitbook/assets/f4ef8cbdf18f0895158350ddbb158d3ceb29db56b6e8733c62220644647ae16d.png)
 
-* The layered structure of the components is deliberate and helps to reduce the load on the slower components. 
+* The layered structure of the components helps to reduce the load on the slower components. 
 * You can see that traffic coming to the load balancer is split equally over all front-end cache servers. Since some requests are “cache hits,” traffic is reduced and only part of it reaches front-end servers
 
 ## Front Line or Web Stack

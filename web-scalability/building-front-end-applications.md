@@ -21,23 +21,34 @@
 
 ## Web Scalability
 
-* Front-end applications built with scale in mind are mostly stateless; 
-* they depend heavily on caching; and, most importantly, they allow horizontal scalability by simply adding more hardware.
-* Front-end applications often need to cache data to increase performance and reduce load on web services and the data layer
+* Front-end applications built with scale in mind 
+  - stateless 
+  - depend heavily on caching to increase performance and reduce load on web services and the data layer
+  - horizontal scalability.
 
-Most of today’s websites are built as traditional multipage web applications, single-page applications \(SPAs\), or hybrids of these two approaches.
+Websites are built as traditional 
+- **Multipage web applications**
 
-* **Traditional multipage web applications** websites where clicking a link or a button initiates a new web request and results in the browser reload an entire page with the response received from the server
+  websites where clicking a link or a button initiates a new web request and results in the browser reload an entire page with the response received from the server
+
   * build scalable websites
-* **Single-page applications** These execute the most business logic in the browser, more so than either hybrid or traditional applications. any time you perform an action in the user interface, the code may initiate asynchronous calls to the server to load/save data.
-  * The main benefit of SPAs is a richer user interface. 
+
+- **Single-page applications** 
+
+  * These execute the most business logic in the browser. 
+  * The code may initiate asynchronous calls to the server to load/save data.
+
+  * richer user interface. 
   * users may also benefit from a smaller network footprint and lower latencies 
-* **Hybrid applications** These applications are a hybrid of traditional multipage web applications and SPAs. Some interactions cause a full page load, and others initiate only partial view updates using AJAX.
+
+- **Hybrids**
+
+  These applications are a hybrid of traditional multipage web applications and SPAs. Some interactions cause a full page load, and others initiate only partial view updates using AJAX.
 
 ### Managing State
 
 * making front-end servers stateless, will be able to scale your front-end layer by simply adding more clones. 
-* instances of a stateless service are fully interchangeable and clients can use any of the instances without seeing any difference in behavior. 
+* instances are fully interchangeable and clients can use any of the instances without seeing any difference in behavior. 
 
 ![picture 1](../.gitbook/assets/ecd1284308a4c96b302dd05698b9679a2c27c98583ca7ba01e268a28fc1fd49a.png)
 
@@ -45,7 +56,7 @@ Most of today’s websites are built as traditional multipage web applications, 
 
 ### Managing HTTP Sessions
 
-3 types of sessions
+3 types
 
 #### Session data stored in cookies
 
@@ -98,7 +109,7 @@ Two types of files needs to be handled
 
 #### Shared cache
 
-* For a real-time bidding application showing auctions in real time and you wanted to cache auction data to improve performance, you could be required to invalidate all of the copies of the cached auction object any time the price changes. Use a cache objects using a shared object cache so there is only one copy of each object and it could be invalidated more easily.
+* For a real-time bidding application use a cache objects using a shared object cache so there is only one copy of each object and it could be invalidated more easily.
 
 #### Distributed Locks
 
@@ -122,7 +133,7 @@ why we need distributed locks ?
 
 * Domain Name System \(DNS\) is the first component that your clients talk to when they want to visit your website.
 * Route 53 for commercial routing
-* If you were hosting your servers in multiple Amazon regions \(multiple data centers\), your clients would actually benefit from establishing a connection to a region that is closer to their location. Route 53 allows you to do that easily using latency-based routing.
+* Route 53 allows you to do that easily using latency-based routing. If you were hosting your servers in multiple Amazon regions \(multiple data centers\), your clients would actually benefit from establishing a connection to a region that is closer to their location. 
 
 ![picture 10](../.gitbook/assets/4ea64897df82893b5a93c12ae4aef09ff9b00c2dd5b887384052812714e40b06.png)
 
@@ -140,7 +151,7 @@ Latency based routing used for distributed customers
 * ELB is cost effective with minimal up-front costs. You pay for what you use. 
 * ELB integrates with auto-scaling and allows for automatic EC2 instance replacement in case of web server failures.
 * ELB can perform SSL termination, so connections coming from ELB to your web servers are HTTP, not HTTPS.
-* Internal load balancer, you gain all the benefits of a load balancer deeper in your stack. You can easily add servers to increase capacity, you can remove machines from the load balancer during maintenance.
+* **Internal load balancer**, you gain all the benefits of a load balancer deeper in your stack. You can easily add servers to increase capacity, you can remove machines from the load balancer during maintenance.
 
 ![picture 11](../.gitbook/assets/5957e3b350ee418b96cc4459e35321c7befd94f8816f9f754d80ea0953bb6f9e.png)
 
@@ -153,7 +164,7 @@ Latency based routing used for distributed customers
 
 #### Caching
 
-1. Add more servers or make them respond faster to clients’ requests, use caching to avoid having to serve these requests
+1. use caching to avoid having to serve these requests
 2. Most web applications can benefit from a shared object cache like Redis or Memcached
 
 #### Autoscaling
