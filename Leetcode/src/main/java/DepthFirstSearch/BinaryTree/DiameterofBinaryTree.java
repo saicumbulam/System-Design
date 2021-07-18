@@ -1,7 +1,7 @@
 package DepthFirstSearch.BinaryTree;
 
 public class DiameterofBinaryTree {
-    public class TreeNode {
+    class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
