@@ -1,4 +1,4 @@
-# replicated load-balanced service.
+# Replicated load-balanced service.
 
 every server is identical to every other server and all are capable of supporting traffic. The pattern consists of a scalable number of servers with a load balancer in front of them
 
@@ -11,13 +11,10 @@ every server is identical to every other server and all are capable of supportin
 
 ## Readiness Probes for Load Balancing
 
-* When designing a replicated service, it is equally important to 
+* When designing a replicated service, it is equally important to build and deploy a readiness probe to inform the load balancer.
 
-  build and deploy a readiness probe to inform the load balancer.
+* Readiness probe determines when an application is ready to serve user requests. The reason for the differentiation is that  many applications require some time to become initialized before they are ready to serve. They may need to connect to databases,load plugins, or download serving files from the network. In all of these cases, the containers are alive, but they are not ready. When building an application for a replicated service pattern, be sure to include a special URL that implements this readiness check.
 
-* Readiness probe determines when an application is ready to serve user requests. The reason for the differentiationis 
-
-  that  many applications require some time to become initialized before they are ready to serve. They may need to connect to databases,load plugins, or download serving files from the network. In all of thesecases, the containers are alive, but they are not ready. When building an application for a replicated service pattern, be sure toinclude a special URL that implements this readiness check.
 
 ## Session Tracked Services
 
@@ -39,8 +36,8 @@ makes the most sense to configure your caching layer as a second stateless repli
 
 ### Expanding cache layer
 
-* Varnishhas a throttle module that can be configured to provide throttlingbased on IP address and request path
-* Add a third layer to our stateless application pattern,which will be a replicated layer of nginx servers that will handleSSL termination for HTTPS traffic and forward traffic on to ourVarnish cache. 
+* Varnish has a throttle module that can be configured to provide throttling based on IP address and request path
+* Add a third layer to our stateless application pattern,which will be a replicated layer of nginx servers that will handle SSL termination for HTTPS traffic and forward traffic on to our Varnish cache. 
 
 ![picture 5](../../../../.gitbook/assets/ef28fc99a41560c78b890e4203e1c22a50d3fc5081af441b1cb94383678708f6.png)
 

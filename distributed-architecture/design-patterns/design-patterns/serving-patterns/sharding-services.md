@@ -48,7 +48,7 @@ The primary reason for sharding the data is because the size of the state is too
 
   **Uniformity**
 
-  ensures that load isevenly spread between the different shards.
+  ensures that load is evenly spread between the different shards.
 
 Shard = hash\(Req\) % 10
 

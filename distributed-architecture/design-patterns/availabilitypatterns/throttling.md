@@ -1,8 +1,7 @@
 # Throttling
 
 1. The load on a cloud application typically varies over time based on the number of active users or the types of activities they are performing.
-2. One strategy is to use autoscaling to match the provisioned resources to the user needs at any given time. This has the potential to consistently meet user demand, while optimizing running costs. However, while autoscaling can trigger the provisioning of additional resources, this provisioning isn't immediate. If demand grows quickly, there can be a window of time where there's a resource deficit.
-3. Control the consumption of resources used by an instance of an application, an individual tenant, or an entire service. This can allow the system to continue to function and meet service level agreements,
+3. Control the consumption of resources used by an instance of an application. This can allow the system to continue to function and meet service level agreements,
 
 ## When to use
 

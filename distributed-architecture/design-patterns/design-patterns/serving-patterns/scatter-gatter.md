@@ -19,7 +19,7 @@ To see an example of scatter/gather in action,
 
 ![picture 8](../../../../.gitbook/assets/2eac9560ac59257a28d646268811857e2b495cf44a7b9e20ad441c934d9f4b92.png)
 
-### straggler” problem.
+### Straggler problem.
 
 * In a scatter/gather system, the root node waits for requests from all of the leaf nodes to return before sending a response back to the end user. 
 * Since data from every leaf node is required, the overall time it takes to process a user request is defined by the slowest leaf node that sends a response.
@@ -30,5 +30,5 @@ To see an example of scatter/gather in action,
 * Increased parallelism doesn’t always speed things up because of the straggler problem.
 * The performance of the 99th percentile is more important than in other systems because each user request actually becomes numerous requests to the service.
 
-**sharded, replicated scatter/gatther system** ![picture 9](../../../../.gitbook/assets/63cc9eae3e0ab0386898c4f49c960bf4d554b56bda47d20cdac7f6d94d898b75.png)
+![picture 9](../../../../.gitbook/assets/63cc9eae3e0ab0386898c4f49c960bf4d554b56bda47d20cdac7f6d94d898b75.png)
 
