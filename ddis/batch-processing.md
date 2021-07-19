@@ -1,58 +1,22 @@
 # Batch Processing
 
-* [Batch Process](batch-processing.md#batch-process)
-  * [What is service,batch and streams](batch-processing.md#what-is-servicebatch-and-streams)
-  * [Batch processing with Unix tools](batch-processing.md#batch-processing-with-unix-tools)
-    * [What are advantages in Unix Commands](batch-processing.md#what-are-advantages-in-unix-commands)
-  * [Map reduce and distributed filesystems](batch-processing.md#map-reduce-and-distributed-filesystems)
-    * [Where to use Map reduce](batch-processing.md#where-to-use-map-reduce)
-    * [Advantages of Map reduce](batch-processing.md#advantages-of-map-reduce)
-    * [materialisation disadvantages](batch-processing.md#materialisation-disadvantages)
-    * [HDFS](batch-processing.md#hdfs)
-      * [\(Architecture classification\)](batch-processing.md#architecture-classification)
-      * [\(Replication advantage\)](batch-processing.md#replication-advantage)
-    * [Mapper and Reducer](batch-processing.md#mapper-and-reducer)
-      * [Workflow](batch-processing.md#workflow)
-      * [Mapper](batch-processing.md#mapper)
-      * [Reducer](batch-processing.md#reducer)
-      * [Configure Mapper and Reducer](batch-processing.md#configure-mapper-and-reducer)
-      * [Computation near the data](batch-processing.md#computation-near-the-data)
-      * [How Large Sorting problem is solved](batch-processing.md#how-large-sorting-problem-is-solved)
-      * [Combining several files together Reducer](batch-processing.md#combining-several-files-together-reducer)
-      * [What is Shuffling](batch-processing.md#what-is-shuffling)
-    * [Workflow chaining](batch-processing.md#workflow-chaining)
-    * [DB and Map Reduce](batch-processing.md#db-and-map-reduce)
-      * [Read data from databases](batch-processing.md#read-data-from-databases)
-      * [Write batch output to databases](batch-processing.md#write-batch-output-to-databases)
-      * [Hot key problem handling](batch-processing.md#hot-key-problem-handling)
-      * [Resolution to Hot key](batch-processing.md#resolution-to-hot-key)
-    * [Difference btw massively parallel processing \(MPP\) databases](batch-processing.md#difference-btw-massively-parallel-processing-mpp-databases)
-  * [Beyond MapReduce](batch-processing.md#beyond-mapreduce)
-    * [Map reduce Alternatives](batch-processing.md#map-reduce-alternatives)
-  * [Graphs and iterative processing](batch-processing.md#graphs-and-iterative-processing)
-    * [Why use Graph](batch-processing.md#why-use-graph)
-    * [Graph communication](batch-processing.md#graph-communication)
-    * [Fault tolerance](batch-processing.md#fault-tolerance)
+**What is service,batch and streams**
 
-      **Batch Process**
-
-### What is service,batch and streams
-
-* Service \(online\): waits for a request and sends back response as quicky
+* Service \(online\): waits for a request and sends back response as quickly
 * Batch processing system \(offline\): takes a large amount of input data, runs a job to process it, and produces some output. _Hour to a day_
 * Stream processing \(near-real-time\): A stream job operates on events shortly after they happen. _Seconds to Minutes_
 
 ### Batch processing with Unix tools
 
-#### What are advantages in Unix Commands
+**What are advantages in Unix Commands**
 
-* Unix commands automatically handle larger-than-memory datasets and automatically paralelizes sorting across multiple CPU cores.
+* Unix commands automatically handle larger-than-memory datasets and automatically parallelizes sorting across multiple CPU cores.
 * Programs must have the same data format to pass information to one another. In Unix, that interface is a file \(file descriptor\), an ordered sequence of bytes. 
 * The unix approach works best if a program simply uses stdin and stdout. the program doesn't know or care where the input is coming from and where the output is going to.
 
 ### Map reduce and distributed filesystems
 
-#### Where to use Map reduce
+**Where to use Map reduce**
 
 * Build indexes for Lucene full text search
 * Machine learning systems such as classifiers and recommendation systems.
@@ -61,7 +25,7 @@
 
 * Immutable inputs.
 
-#### materialisation disadvantages
+**materialization disadvantages**
 
 * The process of writing out the intermediate state to files is called materialisation.
 
@@ -71,7 +35,7 @@
   * Mappers are often redundant: they just read back the same file that was just written by a reducer.
   * Files are replicated across several nodes, which is often overkill for such temporary data.
 
-#### HDFS
+**HDFS**
 
 **\(Architecture classification\)**
 
@@ -84,16 +48,21 @@
 * File blocks are replicated on multiple machines. 
 * erasure coding scheme such as Reed-Solomon codes, to recover lost data.
 
-#### Mapper and Reducer
+**Mapper and Reducer**
 
 **Workflow**
 
 1. Read a set of input files, and break it up into records.
+
 2. Call the mapper function to extract a key and value from each input record.
+
 3. Sort all of the key-value pairs by key.
+
 4. Call the reducer function to iterate over the sorted key-value pairs.
 
-**Mapper**
+   
+
+   **Mapper**
 
 Called once for every input record, and its job is to extract the key and value from the input record.
 
@@ -173,19 +142,19 @@ Partitioning by reducer, sorting and copying data partitions from mappers to red
 * if a machine fails and the intermediate state on that machine is lost, it is recomputed from other data that is still available.
 * Spark uses the resilient distributed dataset \(RDD\) to track ancestry data.
 
-### Graphs and iterative processing
+#### Graphs and iterative processing
 
-#### Why use Graph
+**Why use Graph**
 
 * Used to perform some kind of offline processing or analysis on an entire graph. This need often arises in machine learning applications such as recommednation engines, or in ranking systems.
 * "repeating until done" cannot be expressed in plain MapReduce as it runs in a single pass over the data and some extra trickery is necessary.
 
-#### Graph communication
+**Graph communication**
 
 * One vertex can "send a message" to another vertex, and typically those messages are sent along the edges in a graph.
 * The fact that vertices can only communicate by message passing helps improve the performance, since messages can be batched.
 
-#### Fault tolerance
+**Fault tolerance**
 
 * Fault tolerance is achieved by periodically checkpointing the state of all vertices at the end of an interation.
 * Graph algorithms often have a lot of cross-machine communication overhead, and the intermediate state is often bigger than the original graph.

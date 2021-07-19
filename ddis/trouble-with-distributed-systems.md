@@ -1,76 +1,6 @@
 # Trouble with Distributed Systems
 
-* [Trouble with Distributed Systems](trouble-with-distributed-systems.md#trouble-with-distributed-systems)
-  * [Faults and Partial Failures](trouble-with-distributed-systems.md#faults-and-partial-failures)
-  * [Cloud Computing and Supercomputing](trouble-with-distributed-systems.md#cloud-computing-and-supercomputing)
-    * [Reliability Distributed Systems](trouble-with-distributed-systems.md#reliability-distributed-systems)
-    * [Building from Unreliable Components](trouble-with-distributed-systems.md#building-from-unreliable-components)
-    * [Level of reliability](trouble-with-distributed-systems.md#level-of-reliability)
-  * [Unreliable Networks](trouble-with-distributed-systems.md#unreliable-networks)
-    * [Advantages of shared-nothing systems](trouble-with-distributed-systems.md#advantages-of-shared-nothing-systems)
-    * [Message from Sender and Receiver](trouble-with-distributed-systems.md#message-from-sender-and-receiver)
-    * [Resolution for Message delivery problems](trouble-with-distributed-systems.md#resolution-for-message-delivery-problems)
-  * [Network faults](trouble-with-distributed-systems.md#network-faults)
-    * [Why to detect Network faults](trouble-with-distributed-systems.md#why-to-detect-network-faults)
-    * [Importance of detecting Network faults](trouble-with-distributed-systems.md#importance-of-detecting-network-faults)
-    * [Uncertainity of Node faults](trouble-with-distributed-systems.md#uncertainity-of-node-faults)
-  * [Timeouts and Unbounded Delays](trouble-with-distributed-systems.md#timeouts-and-unbounded-delays)
-    * [How much time to wait](trouble-with-distributed-systems.md#how-much-time-to-wait)
-    * [Downsides of declaring a node dead](trouble-with-distributed-systems.md#downsides-of-declaring-a-node-dead)
-  * [Network Congestion and Queueing](trouble-with-distributed-systems.md#network-congestion-and-queueing)
-    * [Queueing](trouble-with-distributed-systems.md#queueing)
-    * [Queues at different points:](trouble-with-distributed-systems.md#queues-at-different-points)
-  * [TCP vs UDP\(Transmission Control Protocol vs User-Datagram Protocol\)](trouble-with-distributed-systems.md#tcp-vs-udptransmission-control-protocol-vs-user-datagram-protocol)
-    * [why tcp is reliable](trouble-with-distributed-systems.md#why-tcp-is-reliable)
-    * [use case of udp](trouble-with-distributed-systems.md#use-case-of-udp)
-  * [Synchronous Vs Asynchronous Networks](trouble-with-distributed-systems.md#synchronous-vs-asynchronous-networks)
-    * [why don't we make the network reliable at a hardware level so the software does not need to worry about it?](trouble-with-distributed-systems.md#why-dont-we-make-the-network-reliable-at-a-hardware-level-so-the-software-does-not-need-to-worry-about-it)
-    * [TCP vs phone line interface](trouble-with-distributed-systems.md#tcp-vs-phone-line-interface)
-    * [Resolution](trouble-with-distributed-systems.md#resolution)
-  * [Unreliable Clocks](trouble-with-distributed-systems.md#unreliable-clocks)
-    * [Simple resolution to unreliable clocks](trouble-with-distributed-systems.md#simple-resolution-to-unreliable-clocks)
-  * [Monotonic vs Time-of-Day Clocks](trouble-with-distributed-systems.md#monotonic-vs-time-of-day-clocks)
-  * [Time-of-day clocks](trouble-with-distributed-systems.md#time-of-day-clocks)
-    * [Why not use Time-of-day clocks](trouble-with-distributed-systems.md#why-not-use-time-of-day-clocks)
-  * [Monotonic Clocks](trouble-with-distributed-systems.md#monotonic-clocks)
-  * [Clock Synchronization and Accuracy](trouble-with-distributed-systems.md#clock-synchronization-and-accuracy)
-    * [NTP and hard clocks are not as reliable or accurate:](trouble-with-distributed-systems.md#ntp-and-hard-clocks-are-not-as-reliable-or-accurate)
-  * [Relying on Synchronized Clocks](trouble-with-distributed-systems.md#relying-on-synchronized-clocks)
-  * [Timestamps for ordering events](trouble-with-distributed-systems.md#timestamps-for-ordering-events)
-    * [LWW problem](trouble-with-distributed-systems.md#lww-problem)
-  * [Clock readings have a confidence interval](trouble-with-distributed-systems.md#clock-readings-have-a-confidence-interval)
-  * [Synchronized clocks for global snapshots](trouble-with-distributed-systems.md#synchronized-clocks-for-global-snapshots)
-    * [Process Pauses](trouble-with-distributed-systems.md#process-pauses)
-  * [Knowledge, Truth, and Lies](trouble-with-distributed-systems.md#knowledge-truth-and-lies)
-  * [The Truth is Defined by the Majority](trouble-with-distributed-systems.md#the-truth-is-defined-by-the-majority)
-    * [Why we need quorum](trouble-with-distributed-systems.md#why-we-need-quorum)
-  * [The Leader and the Lock](trouble-with-distributed-systems.md#the-leader-and-the-lock)
-  * [Fencing tokens](trouble-with-distributed-systems.md#fencing-tokens)
-  * [Byzantine Faults](trouble-with-distributed-systems.md#byzantine-faults)
-    * [Fencing wont work all the time](trouble-with-distributed-systems.md#fencing-wont-work-all-the-time)
-    * [Byzantine fault](trouble-with-distributed-systems.md#byzantine-fault)
-    * [Why to deal with Byzantine System](trouble-with-distributed-systems.md#why-to-deal-with-byzantine-system)
-  * [Weak forms of lying](trouble-with-distributed-systems.md#weak-forms-of-lying)
-  * [System Model and Reality](trouble-with-distributed-systems.md#system-model-and-reality)
-  * [System Model for Timing Assumptions](trouble-with-distributed-systems.md#system-model-for-timing-assumptions)
-  * [System Model for Node Failures](trouble-with-distributed-systems.md#system-model-for-node-failures)
-  * [Correctness of an algorithm](trouble-with-distributed-systems.md#correctness-of-an-algorithm)
-  * [Safety and liveness](trouble-with-distributed-systems.md#safety-and-liveness)
-  * [Mapping system models to the real world](trouble-with-distributed-systems.md#mapping-system-models-to-the-real-world)
-
-## Faults and Partial Failures
-
-**Distributed systems differ from single node computers in that**: unlike single node computers where either the system is completely working or completely broken, we can have partial failures in distributed systems.
-
-* What makes partial failures more difficult to deal with is that they are nondeterministic. It may sometimes work, and sometimes fail.
-
-## Cloud Computing and Supercomputing
-
-High-performance computing \(HPC\) and cloud computing on both extremes.
-
-* High performance computers or Supercomputers have thousands of CPUs used for computationally expensive tasks like weather forecasting. 
-* In general, a job will checkpoint the state of its computation and store it durably from time to time. If a node fails, the whole cluster is brought down. The state of computation is restarted from the last checkpoint. This makes supercomputers similar to single node computers.
-* Internet services need high availability. It's not acceptable to bring down the cluster due to failure in a node.
+* Partial failures happens in distributed systems. Partial failures are more difficult to deal as they are nondeterministic. 
 
 ### Reliability Distributed Systems
 
@@ -207,18 +137,11 @@ There's ongoing research to use quality of service and admission control to emul
 
 ## Unreliable Clocks
 
-Clocks and time are important in distributed systems. Applications use clocks to answer questions like:
-
-* Has a request timed out yet?
-* When was a request received?
-* How long did a user spend on a site?
-* When does a cache entry expire? Etc.
-
-### Simple resolution to unreliable clocks
+**Simple resolution to unreliable clocks**
 
 Some questions measure duration, while some describe points in time. Time is tricky because each machine on a network has its own clock, and some may be faster or slower than others. Clocks can be synchronized to a degree though, by using the Network Time Protocol \(NTP\). It works by adjusting clocks using time reported from a group of servers. The group of servers get their time from a GPS receiver.
 
-## Monotonic vs Time-of-Day Clocks
+**Monotonic vs Time-of-Day Clocks**
 
 Modern computers have at least two different kinds of clocks: a time-of-day clock and a monotonic clock.
 
@@ -307,104 +230,72 @@ A node in a distributed system must assume that its execution can be paused for 
 
 ## Knowledge, Truth, and Lies
 
-So far, we have discussed some of the distributed systems problems that can occur, which include: unreliable networks, unreliable clocks, faulty nodes, processing pauses etc. We've also discussed how distributed systems differ from programs running on a single node: there's no shared memory, there's only message passing via an unreliable network with variable delays. As a result of these issues, a node in a distributed system cannot know anything for sure. It can only guess based on the messages it receives \(or doesn't receive\) via the network. There has to be a consensus. In this section, we'll explore the concept of knowledge and truth, and guarantees we can provide under certain assumptions in a distributed system.
+#### The Truth is Defined by the Majority
 
-## The Truth is Defined by the Majority
+- A node cannot trust its assessment of a situation. A node may think it's the leader, while the other nodes have elected a new one; it may think it's alive, while other nodes have declared it dead.
 
-A node cannot trust its assessment of a situation. A node may think it's the leader, while the other nodes have elected a new one; it may think it's alive, while other nodes have declared it dead.
+- Quorum
 
-### Why we need quorum
+  As a result, many distributed algorithms rely on a quorum for making decisions i.e. decisions require a minimum number of votes from several nodes in order to reduce dependence on a single node. The quorum is typically an absolute majority of more than half the nodes. This is typically safe because there can only be one majority in a system at a time.
 
-As a result, many distributed algorithms rely on a quorum for making decisions i.e. decisions require a minimum number of votes from several nodes in order to reduce dependence on a single node. The quorum is typically an absolute majority of more than half the nodes. This is typically safe because there can only be one majority in a system at a time.
+- The Leader and the Lock
 
-## The Leader and the Lock
+  A system often requires there to only be one of a particular thing. For example: Only one leader for a database partition, Only one transaction is allowed to hold the lock 
 
-A system often requires there to only be one of a particular thing. For example:
+- Split-brain
 
-* Only one leader for a database partition.
-* Only one transaction is allowed to hold the lock for a particular resource or object.
-* Only one user is allowed to register a particular username.
+  Due to the fact that a node can believe it’s the "chosen one" even when it isn't, the system must be designed to handle such situations and avoid problems like **split-brain**. Handle this with fencing tokens. Basically, each time a lock server grants a lock or a lease, it also generates a fencing token \(a number that increases every time a lock is granted\). We can then require that any client which wants to send a write request to the storage service must include the current fencing token. The lock server will then perform validation on any request with the fencing token included and reject it if it has generated a fencing token with a higher number.
 
-  Due to the fact that a node can believe it’s the "chosen one" even when it isn't, the system must be designed to handle such situations and avoid problems like **split-brain**.
+  
 
-## Fencing tokens
+#### Byzantine Faults
 
-* One of the ways by which systems handle a situation where a node is under a false belief of being "the chosen one", thereby disrupting the rest of the system, is by using fencing tokens.
-* Basically, each time a lock server grants a lock or a lease, it also generates a fencing token \(a number that increases every time a lock is granted\). We can then require that any client which wants to send a write request to the storage service must include the current fencing token.
-* The lock server will then perform validation on any request with the fencing token included and reject it if it has generated a fencing token with a higher number.
-* For applications using ZooKeeper as a lock service, the transaction ID zxid or node version cversion can be used as the fencing token, since they are guaranteed to be monotonically increasing - which is a required property for a fencing token.
+- **Fencing wont work all the time** For a node that is deliberately acting in error, it could simply send messages with a fake fencing token.
 
-## Byzantine Faults
-
-### Fencing wont work all the time
-
-* Fencing tokens can help detect and block a node that is not deliberately acting in error \(e.g. because it hasn't yet realized that its lease has expired\). However, for a node that is deliberately acting in error, it could simply send messages with a fake fencing token.
-
-### Byzantine fault
-
-* Nodes are assumed to be unreliable but honest: any node that does respond is assumed to be telling the truth to the bests of its knowledge.
 * If there's a risk that nodes may "lie" \(e.g. by sending corrupted messages or faulty responses\), it becomes a much harder problem to deal with. That behavior is known as a Byzantine fault and systems that are designed to handle these faults are Byzantine Fault Tolerant Systems.
-* A system is Byzantine fault-tolerant if it continues to operate correctly even if some of the nodes are malfunctioning and not obeying the protocol, or if malicious attackers are interfering with the network.
+* A system is Byzantine fault-tolerant if it continues to operate correctly even if some of the nodes are malfunctioning, or if malicious attackers are interfering with the network.
 
-### Why to deal with Byzantine System
+**Why to deal with Byzantine System**
 
-* In an aerospace environment, data in a computer's memory may become corrupted due to radiation, leading it to respond to other nodes in unpredictable ways. The system has to be equipped to handle this to prevent plane crashes. Therefore, flight control systems must tolerate Byzantine faults.
-* In a system with multiple participating organizations \(e.g peer-to-peer networks like Bitcoin\), some participants may attempt to cheat or defraud others. It's not safe to simply trust another node's messages.
+* In an aerospace environment, data in a computer's memory may become corrupted due to radiation, leading it to respond to other nodes in unpredictable ways. The system has to be equipped to handle this to prevent plane crashes. 
+* In a system with multiple participating organizations \(e.g peer-to-peer networks like Bitcoin\), some participants may attempt to cheat or defraud others. 
 * In most server-side data systems, however, the cost of deploying Byzantine fault-tolerant solutions makes them not practical. Web applications need some other controls though to prevent malicious behavior and that's why: input validation, sanitization and output escaping are important.
 
-## Weak forms of lying
+#### System Model and Reality
 
-There are weaker forms of "lying" which are not full-blown Byzantine faults that we can protect against. For example:
+**System Model for Timing Assumptions**
 
-* Network packets get corrupted due to hardware issues or bugs in the OS. These are usually caught by the checksums built into TCP and UDP, but they sometimes evade detection. Checksums in the application-level protocol is a simple measure that can provide protection against such corruption.
-* A publicly accessible application must carefully sanitize all inputs from users.
-* NTP clients can be synchronized with multiple server addresses, instead of just one server. This makes NTP more robust. One erroneous server among multiple good ones will have minimal impact compared to if it was the only server.
-
-## System Model and Reality
-
-When coming up with distributed systems algorithms, we need to write them in a way that doesn't depend too much on the hardware and software details. Basically, we need an abstraction for what the algorithm may assume, and the types of faults that we can expect in a system. This abstraction is known as a **system model**.
-
-## System Model for Timing Assumptions
-
-* Synchronous model: In this model, we assume that there's a bounded network delay, bounded process pause, and bounded clock error. That is, although there might be errors or delays, it will never exceed a fixed upper bound.
+* **Synchronous model:** In this model, we assume that there's a bounded network delay, bounded process pause, and bounded clock error. That is, although there might be errors or delays, it will never exceed a fixed upper bound.
 * **Partially synchronous model**: This model assumes that the system behaves like a synchronous model most of the time, but sometimes exceeds the bounds for network delay, process pauses and pause drifts. This is the most realistic model for timing assumptions, since many systems work correctly most of the time but occasionally exceed the upper bound.
 * **Asynchronous model**: Here, the system is not allowed to make any timing assumptions. It does not have a clock, and so it doesn't use timeouts. This model is very restrictive.
 
-## System Model for Node Failures
+**System Model for Node Failures**
 
 * **Crash-stop faults:** This model assumes that a node can fail only by crashing, and the node never comes back. That is, once it stops responding, its gone forever.
+
 * **Crash-recovery faults:** This model assumes that nodes may crash at any moment, but also start responding again after some unknown time. Nodes here are assumed to have stable storage that gets preserved across crashes, and the in-memory state is assumed to be lost.
+
 * **Byzantine faults:** Nodes may do anything, including trying to trick other nodes.
 
-  -For modeling real system, the most useful model is generally the partially synchronous model with crash-recovery faults.
+  
 
-## Correctness of an algorithm
+  **For modeling real system**, the most useful model is generally the partially synchronous model with crash-recovery faults.
 
-* For an algorithm to be correct, it must have certain properties. E.g. For a sorting algorithm to be correct, it must have certain properties expected of its output. Such as that the element further to the left is smaller than the element further to the right.
-* Likewise, we can define properties for what it means for a distributed algorithm to be correct. For example, for generating fencing tokens, the algorithm may be required to satisfy the following properties:
-* Uniqueness: No two requests for a fencing token must return the same value.
-* Monotonic sequence: It must always increase.
-* Availability: A node that requests a fencing token and doesn't crash must eventually receive a response.
 
-## Safety and liveness
 
-There are two different kinds of properties that we can distinguish between: safety and liveness properties. In the example above for a fencing token, uniqueness and monotonic sequence are safety properties, while availability is a liveness property.
+**Correctness of an algorithm**
 
-* Safety properties are informally defined as: nothing bad happens, while liveness properties are defined as something good eventually happens.
+* For an algorithm to be correct, it must have certain properties. E.g. For a sorting algorithm to be correct, it must have certain properties expected of its output.
+* Likewise, we can define properties for what it means for a distributed algorithm to be correct.
 
-The actual definitions of safety and liveness are precise and mathematical:
+**Safety and liveness**
 
-* If a safety property is violated, we can point at a particular point in time at which it was broken \(for example, if the uniqueness property was violated, we can identify the particular operation in which a duplicate fencing token was returned\). After a safety property has been violated, the violation cannot be undone — the damage is already done.
-* A liveness property works the other way round: it may not hold at some point in time \(for example, a node may have sent a request but not yet received a response\), but there is always hope that it may be satisfied in the future \(namely by receiving a response\).
+There are two different kinds of properties that we can distinguish between: safety and liveness properties.
+
+* Safety properties are informally defined as: nothing bad happens
+* liveness properties are defined as something good eventually happens.
+
+*  After a safety property has been violated, the violation cannot be undone — the damage is already done.
+* A liveness property works the other way round: it may not hold at some point in time , but there is always hope that it may be satisfied in the future.
 * For distributed algorithms, it is commonly required that safety properties always hold, in all possible situations of a system model. Therefore, even in the occurrence of all nodes crashing, or entire network failures, the algorithm must always return a correct result.
 * On the other hand, we are allowed to make caveats with liveness properties. E.g. we could say that a request will only receive a response if majority of nodes have not crashed, and only if the network recovers from an outage eventually.
-
-## Mapping system models to the real world
-
-Reality must also be considered when designing algorithms.
-
-* We may sometimes have to include code to handle situations where something that was assumed to be impossible actually happens.
-* Proving the correctness of an algorithm does not mean that the implementation on a real system will always behave correctly.
-* However, theoretical analysis is still a good first step because it can uncover problems that may remain hidden for a long time.
-* Theoretical analysis and empirical testing are equally important.
-
