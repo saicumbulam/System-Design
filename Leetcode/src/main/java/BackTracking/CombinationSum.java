@@ -23,7 +23,6 @@ public class CombinationSum {
         }
         if (index >= arr.length || target < 0)
         {
-
             return;
         }
 

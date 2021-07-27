@@ -1,18 +1,5 @@
 # Data Models and Query Languages
 
-* [Data Models and Query Languages](data-models-and-query-languages.md#data-models-and-query-languages)
-  * [Relational Model Versus Document Model](data-models-and-query-languages.md#relational-model-versus-document-model)
-    * [Why NoSQL](data-models-and-query-languages.md#why-nosql)
-    * [NoSQL Databases are in two forms](data-models-and-query-languages.md#nosql-databases-are-in-two-forms)
-    * [Impedance Mismatch](data-models-and-query-languages.md#impedance-mismatch)
-  * [Relational Versus Document Databases](data-models-and-query-languages.md#relational-versus-document-databases)
-  * [Document Databases](data-models-and-query-languages.md#document-databases)
-    * [When to use Document databases](data-models-and-query-languages.md#when-to-use-document-databases)
-    * [Schema Flexibility in the document model](data-models-and-query-languages.md#schema-flexibility-in-the-document-model)
-    * [Data locality for queries](data-models-and-query-languages.md#data-locality-for-queries)
-  * [Query Languages For Data](data-models-and-query-languages.md#query-languages-for-data)
-  * [Graph-Like Data Models](data-models-and-query-languages.md#graph-like-data-models)
-
 ## Relational Model Versus Document Model
 
 ### Why NoSQL

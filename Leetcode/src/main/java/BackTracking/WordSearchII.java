@@ -47,10 +47,18 @@ public class WordSearchII {
         return this._result;
     }
 
-    private void backtracking(int row, int col, TrieNode parent)
+    private void backtracking(int row, int col, TrieNode root)
     {
+        if (row < 0 || row >= this._board.length || col < 0
+                || col >= this._board[0].length ||
+                !root.children.containsKey(this._board[row][col]))
+        {
+            return;
+        }
+
+
         Character letter = this._board[row][col];
-        TrieNode currNode = parent.children.get(letter);
+        TrieNode currNode = root.children.get(letter);
 
         // check if there is any match
         if (currNode.word != null) {
@@ -61,27 +69,13 @@ public class WordSearchII {
         // mark the current letter before the EXPLORATION
         this._board[row][col] = '#';
 
-        // explore neighbor cells in around-clock directions: up, right, down, left
-        int[] rowOffset = {-1, 0, 1, 0};
-        int[] colOffset = {0, 1, 0, -1};
-        for (int i = 0; i < 4; ++i) {
-            int newRow = row + rowOffset[i];
-            int newCol = col + colOffset[i];
-            if (newRow < 0 || newRow >= this._board.length || newCol < 0
-                    || newCol >= this._board[0].length) {
-                continue;
-            }
-            if (currNode.children.containsKey(this._board[newRow][newCol])) {
-                backtracking(newRow, newCol, currNode);
-            }
-        }
+        backtracking(row+1, col, currNode);
+        backtracking(row-1, col, currNode);
+        backtracking(row, col+1, currNode);
+        backtracking(row, col-1, currNode);
+
 
         // End of EXPLORATION, restore the original letter in the board.
         this._board[row][col] = letter;
-
-        // Optimization: incrementally remove the leaf nodes
-        if (currNode.children.isEmpty()) {
-            parent.children.remove(letter);
-        }
     }
 }

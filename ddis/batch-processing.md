@@ -6,14 +6,6 @@
 * Batch processing system \(offline\): takes a large amount of input data, runs a job to process it, and produces some output. _Hour to a day_
 * Stream processing \(near-real-time\): A stream job operates on events shortly after they happen. _Seconds to Minutes_
 
-### Batch processing with Unix tools
-
-**What are advantages in Unix Commands**
-
-* Unix commands automatically handle larger-than-memory datasets and automatically parallelizes sorting across multiple CPU cores.
-* Programs must have the same data format to pass information to one another. In Unix, that interface is a file \(file descriptor\), an ordered sequence of bytes. 
-* The unix approach works best if a program simply uses stdin and stdout. the program doesn't know or care where the input is coming from and where the output is going to.
-
 ### Map reduce and distributed filesystems
 
 **Where to use Map reduce**
@@ -27,9 +19,9 @@
 
 **materialization disadvantages**
 
-* The process of writing out the intermediate state to files is called materialisation.
+* The process of writing out the intermediate state to files is called materialization.
 
-  MapReduce's approach of fully materialising state has some downsides compared to Unix pipes:
+  MapReduce's approach of fully materializing state has some downsides compared to Unix pipes:
 
   * A MapReduce job can only start when all tasks in the preceding jobs have completed.
   * Mappers are often redundant: they just read back the same file that was just written by a reducer.

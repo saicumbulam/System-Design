@@ -1,12 +1,5 @@
 # Spark Streaming
 
-* [stream processing steps](spark-streaming.md#stream-processing-steps)
-  * [continuous operator model](spark-streaming.md#continuous-operator-model)
-* [Architecture of Spark Streaming: Discretized Streams](spark-streaming.md#architecture-of-spark-streaming-discretized-streams)
-  * [Benefits of Discretized Stream Processing](spark-streaming.md#benefits-of-discretized-stream-processing)
-* [Unification of batch, streaming and interactive analytics](spark-streaming.md#unification-of-batch-streaming-and-interactive-analytics)
-* [Performance](spark-streaming.md#performance)
-
 Apache Spark has provided an unified engine that natively supports both batch and streaming workloads.
 
 Stream Processing Architectures – The Old and the New

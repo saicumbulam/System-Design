@@ -6,11 +6,11 @@ There's a difference between storage engines that are optimized for transactiona
 
 There are two families of storage engines: log-structured storage engines \(log structured merge trees\), and page-oriented storage engines \(b-trees\).
 
-## Log-Structured Storage Engines
+**Log-Structured Storage Engines**
 
 Many databases internally use a log, an append-only data file for adding something to it. Each line in the log contains a key-value pair, separated by a comma \(similar to a CSV file, ignoring escaping issues\). The log does not have to be internally-readable, it might be binary and intended only for other programs to read.
 
-### Indexing
+**Indexing**
 
 1. An index is an additional structure derived from the primary data. Any kind of index usually slows down writes, since the index has to be updated every time data is written.
 2. Well-chosen indexes speed up read queries, but every index slows down writes.
@@ -35,11 +35,21 @@ The only requirement is that all the keys fit in the available RAM as the hash m
 
 **Best Practices for Hash Indexing**
 
-**File Format:** As opposed to using a CSV format, it's faster and simpler to use a binary format that first encodes the length of a string in bytes, followed by the raw string. **Deleting Records:** a special deletion record is appended to the data file \(sometimes called a tombstone\). When log segments are merged, the tombstone tells the merging process to discard any previous values for the deleted key. **Crash Recovery:** If the database is restarted, the in-memory hash maps will be lost. In principle, the segment's hash maps can be restored by reading the entire segment files and constructing the hash maps from scratch. This might take a while though, so could make server restarts painful. **Concurrency Control:** Since writes are appended in a sequential order, a common implementation is to have only one writer thread. Data files are append-only and otherwise immutable, so they can be read concurrently by multiple threads.
+**File Format:** As opposed to using a CSV format, it's faster and simpler to use a binary format that first encodes the length of a string in bytes, followed by the raw string. 
+
+**Deleting Records:** a special deletion record is appended to the data file \(sometimes called a tombstone\). When log segments are merged, the tombstone tells the merging process to discard any previous values for the deleted key. 
+
+**Crash Recovery:** If the database is restarted, the in-memory hash maps will be lost. In principle, the segment's hash maps can be restored by reading the entire segment files and constructing the hash maps from scratch. This might take a while though, so could make server restarts painful. 
+
+**Concurrency Control:** Since writes are appended in a sequential order, a common implementation is to have only one writer thread. Data files are append-only and otherwise immutable, so they can be read concurrently by multiple threads.
 
 **Why append only**
 
-Some of those reasons are: 1. Appending and segment merging are sequential write operations, which are generally faster than random writes, especially on magnetic spinning-disk hard drives. 2. Concurrency and crash recovery are simpler if segment files are append-only or immutable. For crash recovery, you don't need to worry if a crash happened 3. while a value was being overwritten, leaving you with partial data. Merging old segments avoids the problem of data files getting fragmented over time. Fragmentation occurs on a hard drive, a memory module, or other media when data is not written closely enough physically on the drive. Those fragmented, individual pieces of data are referred to generally as fragments. Basically, when data files are far from each other, it's a form of fragmentation.
+Some of those reasons are: 
+
+1. Appending and segment merging are sequential write operations, which are generally faster than random writes, especially on magnetic spinning-disk hard drives. 
+2. Concurrency and crash recovery are simpler if segment files are append-only or immutable. For crash recovery, you don't need to worry if a crash happened 
+3.  while a value was being overwritten, leaving you with partial data. Merging old segments avoids the problem of data files getting fragmented over time. Fragmentation occurs on a hard drive, a memory module, or other media when data is not written closely enough physically on the drive. Those fragmented, individual pieces of data are referred to generally as fragments. Basically, when data files are far from each other, it's a form of fragmentation.
 
 **limitations to the hash table index:**
 
@@ -71,7 +81,14 @@ Some of those reasons are: 1. Appending and segment merging are sequential write
 
 1. The approach is to use well-known tree data structures such as red-black trees or AVL trees into which keys can be inserted in any order and read back in sorted order.
 
-So the storage engine works as follows: 1. When a write comes in, it is written to an in-memory balanced tree data structure. The in-memory tree is sometimes called a memtable. 2. When the memtable exceeds a threshold, write it out to disk as an SSTable file. This operation is efficient because the tree already maintains the key-value pairs sorted by key. The new SSTable file then becomes the most recent segment of the database. While the SSTable is being written out to disk, writes can continue to a new memtable instance. 3. To serve a read request, first check for the key in the memtable. If it's not there, check the most recent segment, then the next-older segment etc 4. From time to time, run a merging and compaction process in the background to combine segment files and to discard overwritten or deleted values.
+So the storage engine works as follows: 
+
+1. When a write comes in, it is written to an in-memory balanced tree data structure. The in-memory tree is sometimes called a memtable. 
+2. When the memtable exceeds a threshold, write it out to disk as an SSTable file. This operation is efficient because the tree already maintains the key-value pairs sorted by key. The new SSTable file then becomes the most recent segment of the database. While the SSTable is being written out to disk, writes can continue to a new memtable instance. 
+3. To serve a read request, first check for the key in the memtable. If it's not there, check the most recent segment, then the next-older segment etc 
+4. From time to time, run a merging and compaction process in the background to combine segment files and to discard overwritten or deleted values.
+
+
 
 **Handling Failures**
 
@@ -92,7 +109,11 @@ There are also strategies to determine the order and timing of how SSTables are 
 
 **Size-Tiered Compaction:** newer and smaller SSTables are successively merged into older and larger SSTables.
 
-**Leveled Compaction:** 1. The key range is split into smaller SSTables and older data is moved into separate "levels". This allows compaction to proceed more incrementally and use less disk space. The levels are structured roughly so that each level is in total 10x as large as the level above it. 2. New keys arrive at the highest layer, and as that level gets larger and larger and hits a threshold, some SSTables at that level get compacted into fewer \(but larger\) SSTables one level lower. 3. Within a single level, SSTables are non-overlapping: one SSTable might contain keys covering the range \(a,b\), the next \(c,d\), and so on. The key-space does overlap between levels: if you have two levels, the first might have two SSTables, but the second level might have a single SSTable over the key space \(a,e\). Looking for the key 'aardvark' may require looking in two SSTables: the \(a,b\) SSTable in Level 1, and the \(a,e\) SSTable in Level 2. Basically, a level has many SSTables.
+**Leveled Compaction:** 
+
+1. The key range is split into smaller SSTables and older data is moved into separate "levels". This allows compaction to proceed more incrementally and use less disk space. The levels are structured roughly so that each level is in total 10x as large as the level above it. 
+2. New keys arrive at the highest layer, and as that level gets larger and larger and hits a threshold, some SSTables at that level get compacted into fewer \(but larger\) SSTables one level lower. 
+3. Within a single level, SSTables are non-overlapping: one SSTable might contain keys covering the range \(a,b\), the next \(c,d\), and so on. The key-space does overlap between levels: if you have two levels, the first might have two SSTables, but the second level might have a single SSTable over the key space \(a,e\). Looking for the key 'aardvark' may require looking in two SSTables: the \(a,b\) SSTable in Level 1, and the \(a,e\) SSTable in Level 2. Basically, a level has many SSTables.
 
 #### B-Trees
 
@@ -103,7 +124,7 @@ There are also strategies to determine the order and timing of how SSTables are 
 5. To update the value of an existing key in a B-tree, you search for the leaf page containing that key, change the value in that page, and write the page back to disk. 
 6. To add a new key, find the page whose range encompasses the new key and add it to that page. If there's no free space on that page, split the page into two half-full pages, and update the parent page to account for the new subdivision of key ranges.
 
-#### Making B- Trees reliable
+**Making B- Trees reliable**
 
 1. The main write operation of a B-tree is to overwrite a page on disk with new data. The assumption is that an overwrite does not change where a page is located i.e. all the references to a page typically remain intact when the page is overwritten.
 2. Some operations require different pages to be overwritten e.g. when a page is split because an insertion caused it to be overfull. We'll need to write the two pages that were split and update the parent page with references to the two child pages. This operation is dangerous especially if the database crashes after only some pages have been written, this can lead to a corrupted index.
@@ -209,8 +230,6 @@ OLAP: Online Analytics Processing. Refers to queries generally performed by busi
 
 OLTP: Online Transaction Processing. Interactive queries which typically return a small number of records.
 
-In the past, OLTP-type queries and OLAP-type queries were performed on the same databases. However, there's been a push for OLAP-type queries to be run on data warehouses.
-
 #### Data Warehousing
 
 1. A data warehouse is a separate DB that analysts can query without affecting OLTP operations. The data warehouse contains a read-only copy of the data in all the various OLTP systems in the company. Data is extracted from OLTP databases and loaded into the warehouse using an ETL \(Extract-Transform-Load\) process.
@@ -236,7 +255,7 @@ The column-oriented storage layout relies on each column file containing the row
 1. we can reduce the demands on disk throughput by compressing data. Column-oriented storage lends itself well to compression. Different compression techniques can be used such as Bitmap encoding. 
 2. The number of distinct values in a column is often small compared to the number of rows. Therefore, we can take a column with n distinct values and turn it into n separate bitmaps: one bitmap for each distinct value, with one bit for each row. The bit is 1 if the row has that value, and 0 if not.
 
-#### Column-oriented storage and column families
+**Column-oriented storage and column families**
 
 Cassandra and Hbase have a concept of column families, which differs from being column oriented. Within each column family, they store all the columns from a row together, along with a row key, and do not use column compression.
 

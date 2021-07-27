@@ -38,9 +38,8 @@ unbounded because it arrives gradually over time: your users produced data yeste
 * require the application code to be aware of the possibility of message loss. 
 * Consumer offline is a problem
 
-**Message Brokers**
+#### Message Brokers
 
-* send messages via a message broker
 * Some message brokers only keep messages in memory, while others write them to disk so that they are not lost in case of a broker crash. 
 * Faced with slow consumers, they generally allow unbounded queueing 
 * consumers are generally asynchronous: when a producer sends a message, it normally only waits for the broker to confirm that it has buffered the message and does not wait for the message to be processed by consumers
@@ -76,17 +75,14 @@ unbounded because it arrives gradually over time: your users produced data yeste
 
 **Disk Space Usage**
 
-* If you only ever append to the log, you will eventually run out of disk space. To reclaim diskspace, the log is actually divided into segments, and from time to time old segments are deleted ormoved to archive storage
-* if a slow consumer cannot keep up with the rate of messages, and it falls so farbehind that its consumer offset points to a deleted segment, it will miss some of the messages. Effectively, the log implements a bounded-size buffer that discards old messages when it gets full,also known as a **circular buffer or ring buffer**
+* If you only ever append to the log, you will eventually run out of disk space. To reclaim diskspace, the log is actually divided into segments, and from time to time old segments are deleted removed to archive storage
+* if a slow consumer cannot keep up with the rate of messages, and it falls so far behind that its consumer offset points to a deleted segment, it will miss some of the messages. Effectively, the log implements a bounded-size buffer that discards old messages when it gets full,also known as a **circular buffer or ring buffer**
 
 **Replaying Old Messages**
 
 * Manipulating the consumer offset, we can read older data and return back to where we continued. 
 
 ### Databases and Streams
-
-1. something was written to a database is an event that can be captured, stored, and processed. 
-2. a replication log is a stream of database write events, produced by the leader as it processes transactions. The followers apply that stream of writes to their own copy of the database and thus end up with an accurate copy of the same data.The events in the replication log describe the data changes that occurred.
 
 #### Change data capture TODO
 
@@ -102,7 +98,7 @@ Like message brokers, change data capture is usually asynchronous: the system of
 **Initial snapshot**
 
 1. If you have the log of all changes that were ever made to a database, you can reconstruct the entire state of the database by replaying the log. However, in many cases, keeping all changes forever would require too much disk space, and replaying it would take too long
-2. f you don’t have the entire log history, you need to start with a consistent snapshot. The snapshot of the database must correspond to a known position or offset in the change log, so that you know at which point to start applying changes after the snapshot has been processed
+2. If you don’t have the entire log history, you need to start with a consistent snapshot. The snapshot of the database must correspond to a known position or offset in the change log, so that you know at which point to start applying changes after the snapshot has been processed
 
 **Log Compaction**
 
@@ -144,7 +140,7 @@ A piece of code that processes streams like this is known as an operator or a jo
 
 **Complex Event processing**
 
-* Complex event processing \(CEP\) os made for searching for certain event patterns
+* Complex event processing \(CEP\) is made for searching for certain event patterns
 * CEP systems use SQL like to describe the patterns of events that should be detected. These queries are submitted to a processing engine that consumes the input streams and internally maintains a state machine that performs the required matching
 
 **Search on streams**
@@ -158,9 +154,9 @@ Apache Storm has a feature called distributed RPC, which allows user queries to 
 
 #### Stream-stream join \(window join\)
 
-* you want to detect recent trends in searched-for URLs. Every time someone clicks one of the search results, you log another event recording the click. In order to calculate the click-through rate for each URL in the search esults, you need to bring together the events for the search action and the click action, which are connected by having the same session ID.
-* You can choose a suitable window for the join—forexample, you may choose to join a click with a search if they occur at most one hour apart.
-* stream processor needs to maintain state: for example, all the events that occurred in the last hour, indexed by session ID. Whenever a search event or click even toccurs, it is added to the appropriate index, and the stream processor also checks the other index to see if another event for the same session ID has already arrived. If there is a matching event,you emit an event saying which search result was clicked.
+* you want to detect recent trends in searched-for URLs. Every time someone clicks one of the search results, you log another event recording the click. In order to calculate the click-through rate for each URL in the search results, you need to bring together the events for the search action and the click action, which are connected by having the same session ID.
+* You can choose a suitable window for the join—for example, you may choose to join a click with a search if they occur at most one hour apart.
+* stream processor needs to maintain state: for example, all the events that occurred in the last hour, indexed by session ID. Whenever a search event or click event occurs, it is added to the appropriate index, and the stream processor also checks the other index to see if another event for the same session ID has already arrived. If there is a matching event,you emit an event saying which search result was clicked.
 
 **Stream-table join \(stream enrichment\)**
 
@@ -191,7 +187,7 @@ _Materializing and maintaining this cache_ requires the following event processi
 * Micro batching also implicitly provides a tumbling window equal to the batch size 
 * Apache Flink, is to periodically generate rolling checkpoints of state and write them to durable storage.
 * If a stream operator crashes, it can restart from its most recent checkpoint and discard any output generated between the last checkpoint and the crash.
-* An idempotent operation is one that you can perform multiple times, and it has the same effect as if you performed it only once. For example, setting a key in a key-value store to some fixed value is idempotent
+* An **idempotent operation** is one that you can perform multiple times, and it has the same effect as if you performed it only once. For example, setting a key in a key-value store to some fixed value is idempotent
 * There may not even be necessary to replicate the state, because it can be rebuilt from the input streams. For example, if the state consists of aggregations over a fairly short window, it may be fast enough to simply replay the input events corresponding to that window
 
 #### Event Time Versus Processing Time
@@ -224,7 +220,7 @@ In an ideal world, event time and processing time would always be equal, with ev
 
 ![picture 13](../.gitbook/assets/1baabb12baabecd6f7ded54620816988c08a90b39c427a56ecc3e85fa1687b89.png)
 
-### UnBounded data: Batch:
+### UnBounded data
 
 **Fixed Windows**
 
@@ -239,7 +235,7 @@ In an ideal world, event time and processing time would always be equal, with ev
 
 ![picture 15](../.gitbook/assets/49bd8478613700482e04c9ee2a48948b5a37c8f70ad5fcbe7d18804e3576478f.png)
 
-### Unbounded Data: Streaming
+**Streaming**
 
 streaming systems are built for unbounded data.
 
@@ -252,7 +248,7 @@ streaming systems are built for unbounded data.
 
 **Inner Joins** you’re processing web traffic logs and you want to filter out all traffic that didn’t originate from a specific domain. You would look at each record as it arrived, see if it belonged to the domain of interest, and drop it if not ![picture 17](../.gitbook/assets/b713e83130c7c91b4db05fa504fdb8c45782a504023d19575c10c5961a1ce76c.png)
 
-### Approximation Algorithm
+**Approximation Algorithm**
 
 * Approximation algorithms, such as approximate Top-N, streaming k-means. 
 * They take an unbounded source of input and provide output data that

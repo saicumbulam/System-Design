@@ -1,20 +1,7 @@
 # Reliability, Scalability and Maintainability
 
-* [Reliability, Scalability and Maintainability](reliability-scalability-and-maintainability.md#reliability-scalability-and-maintainability)
-  * [Reliability](reliability-scalability-and-maintainability.md#reliability)
-    * [Fault tolerant](reliability-scalability-and-maintainability.md#fault-tolerant)
-  * [Hardware Faults](reliability-scalability-and-maintainability.md#hardware-faults)
-  * [Software Errors](reliability-scalability-and-maintainability.md#software-errors)
-  * [Human Errors](reliability-scalability-and-maintainability.md#human-errors)
-  * [Scalability](reliability-scalability-and-maintainability.md#scalability)
-    * [Describing Load \(System design back of envelope estimation\)](reliability-scalability-and-maintainability.md#describing-load-system-design-back-of-envelope-estimation)
-  * [Latency vs response time](reliability-scalability-and-maintainability.md#latency-vs-response-time)
-  * [Maintainability](reliability-scalability-and-maintainability.md#maintainability)
-  * [Simplicity: Managing Complexity](reliability-scalability-and-maintainability.md#simplicity-managing-complexity)
-  * [Evolvability: Making Change Easy](reliability-scalability-and-maintainability.md#evolvability-making-change-easy)
-  * [Functional and non-functional requirements](reliability-scalability-and-maintainability.md#functional-and-non-functional-requirements)
+3 concerns that are important in most software systems are:
 
-    3 concerns that are important in most software systems are:
 * **Reliability**: The system should work correctly even in the face of adversity.
 * **Scalability**: As the system grows there should be reasonable ways of dealing with that growth.
 * **Maintainability**: People should be able to work on the system productively in the future.

@@ -1,45 +1,5 @@
 # Cassandra
 
-* [Use cases](cassandra.md#use-cases)
-* [common terms](cassandra.md#common-terms)
-* [High-level architecture](cassandra.md#high-level-architecture)
-  * [Data partitioning](cassandra.md#data-partitioning)
-  * [Cassandra keys](cassandra.md#cassandra-keys)
-  * [Clustering keys](cassandra.md#clustering-keys)
-* [Partitioner](cassandra.md#partitioner)
-  * [Example:](cassandra.md#example)
-  * [Coordinator node](cassandra.md#coordinator-node)
-* [Replication](cassandra.md#replication)
-  * [Replication factor](cassandra.md#replication-factor)
-  * [Replication strategy](cassandra.md#replication-strategy)
-    * [Simple replication strategy](cassandra.md#simple-replication-strategy)
-    * [Network topology strategy](cassandra.md#network-topology-strategy)
-* [Cassandra’s consistency levels?](cassandra.md#cassandras-consistency-levels)
-  * [Write consistency levels](cassandra.md#write-consistency-levels)
-  * [Read consistency levels](cassandra.md#read-consistency-levels)
-  * [Snitch](cassandra.md#snitch)
-* [Cassandra use gossip protocol?](cassandra.md#cassandra-use-gossip-protocol)
-* [Node failure detection](cassandra.md#node-failure-detection)
-* [Anatomy of Cassandra's Write Operation](cassandra.md#anatomy-of-cassandras-write-operation)
-  * [Commit log](cassandra.md#commit-log)
-  * [MemTable](cassandra.md#memtable)
-  * [SStable](cassandra.md#sstable)
-* [Anatomy of Cassandra's Read Operation](cassandra.md#anatomy-of-cassandras-read-operation)
-  * [Caching](cassandra.md#caching)
-  * [Reading from MemTable](cassandra.md#reading-from-memtable)
-  * [Reading from SSTable](cassandra.md#reading-from-sstable)
-    * [Bloom filters](cassandra.md#bloom-filters)
-  * [How are SSTables stored on the disk?](cassandra.md#how-are-sstables-stored-on-the-disk)
-    * [Partition index summary file](cassandra.md#partition-index-summary-file)
-  * [Reading SSTable through key cache](cassandra.md#reading-sstable-through-key-cache)
-* [Compaction](cassandra.md#compaction)
-  * [How does compaction work in Cassandra?](cassandra.md#how-does-compaction-work-in-cassandra)
-  * [Compaction strategies](cassandra.md#compaction-strategies)
-  * [Sequential writes](cassandra.md#sequential-writes)
-* [What are Tombstones?](cassandra.md#what-are-tombstones)
-  * [Common problems associated with Tombstones](cassandra.md#common-problems-associated-with-tombstones)
-* [Summary](cassandra.md#summary)
-
 Cassandra is an open-source Apache project.  
 AP \(i.e., available and partition tolerant\) system which means that availability and partition tolerance are generally considered more important than the consistency. Cassandra is optimized for high throughput and faster writes
 
@@ -75,7 +35,9 @@ Cassandra uses consistent hashing for data partitioning.
 
 clustering keys define how the data is stored within a node. We can have multiple clustering keys; all columns listed after the partition key are called clustering columns. Clustering columns specify the order that the data is arranged on a node. ![picture 19](../.gitbook/assets/a4756c1bdb34f543b72233b0110448f1e6664aaf445a7b17aeaec05db90df716.png)
 
-## Partitioner
+### Partitioner
+
+
 
 Partitioner is the component responsible for determining how data is distributed on the Consistent Hash ring. When Cassandra inserts some data into a cluster, the partitioner performs the first step, which is to apply a hashing algorithm to the partition key. The output of this hashing algorithm determines within which range the data lies and hence, on which node the data will be stored. Cassandra uses the Murmur3 hashing function. Murmur3 will always produce the same hash for a given partition key. This means that we can always find the node where a specific row is stored. In Cassandra’s default configuration, a token is a 64-bit integer. This gives a possible range for tokens from -2^{63}to 2^{63}-1.
 
@@ -363,7 +325,7 @@ Sequential writes are the primary reason that writes perform so well in Cassandr
 * Tombstones are removed as part of compaction. 
 * During compaction, any row with an expired tombstone will not be propagated further.
 
-### Common problems associated with Tombstones
+**Common problems associated with Tombstones**
 
 * Tombstones make Cassandra writes actions efficient because the data is not removed right away when deleted. 
 

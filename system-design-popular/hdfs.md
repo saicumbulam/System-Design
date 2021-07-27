@@ -1,31 +1,5 @@
 # HDFS
 
-* [Hadoop Distributed File System](hdfs.md#hadoop-distributed-file-system)
-  * [when not use HDFS:](hdfs.md#when-not-use-hdfs)
-  * [API](hdfs.md#api)
-  * [HDFS Architecture](hdfs.md#hdfs-architecture)
-  * [Comparison between GFS and HDFS](hdfs.md#comparison-between-gfs-and-hdfs)
-  * [Cluster topology](hdfs.md#cluster-topology)
-    * [Rack aware replication and its effects](hdfs.md#rack-aware-replication-and-its-effects)
-    * [Fast Read](hdfs.md#fast-read)
-    * [consistency model](hdfs.md#consistency-model)
-  * [Read process](hdfs.md#read-process)
-    * [Short circuit Read](hdfs.md#short-circuit-read)
-  * [HDFS write process](hdfs.md#hdfs-write-process)
-  * [Data integrity](hdfs.md#data-integrity)
-    * [Block scanner](hdfs.md#block-scanner)
-  * [Caching](hdfs.md#caching)
-  * [Replication](hdfs.md#replication)
-  * [HeartBeat](hdfs.md#heartbeat)
-  * [FsImage and EditLog](hdfs.md#fsimage-and-editlog)
-  * [Metadata backup](hdfs.md#metadata-backup)
-  * [Failover and fencing](hdfs.md#failover-and-fencing)
-  * [Fencing](hdfs.md#fencing)
-  * [Security and permission](hdfs.md#security-and-permission)
-  * [HDFS federation](hdfs.md#hdfs-federation)
-  * [Erasure coding](hdfs.md#erasure-coding)
-  * [HDFS in practice](hdfs.md#hdfs-in-practice)
-
 ## Hadoop Distributed File System
 
 * HDFS is a distributed file system and was built to store unstructured data. It is designed to store huge files reliably and stream those files at high bandwidth to user applications.
